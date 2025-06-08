@@ -3,8 +3,8 @@ package com.neuedu.nep.entity;
 public class Supervisor extends Member{
     private String state;
 
-    public Supervisor(String name, String sex, String code, String account,String passsWord, String state) {
-        super(name, sex, code, account,passsWord);
+    public Supervisor(String name, String sex, String account,String passWord, String state) {
+        super(name, sex, account,passWord);
         this.state = state;
     }
 

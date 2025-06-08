@@ -5,28 +5,36 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.HelloCotroller">
+<AnchorPane fx:id="paneRoot" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.HelloCotroller">
    <children>
-      <VBox alignment="BOTTOM_CENTER" minWidth="200" prefHeight="400.0" prefWidth="600.0">
+      <VBox alignment="BOTTOM_CENTER" minWidth="200" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" AnchorPane.topAnchor="0">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../image/earth.png" />
+                     </image></ImageView>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="100.0" prefWidth="510.0" text="NEU EDUCATION" textAlignment="CENTER">
                      <font>
-                        <Font size="22.0" />
+                        <Font size="40.0" />
                      </font></Label>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
-            <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="loginButton" mnemonicParsing="false" onMouseClicked="#loginButtonClicked" prefHeight="40.0" prefWidth="75.0" text="LOG IN" />
+                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="test mode" />
+                     </children>
+                  </HBox>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="113.0" prefWidth="600.0">
+            <HBox alignment="TOP_CENTER" prefHeight="113.0" prefWidth="600.0">
                <children>
-                  <Button fx:id="registerButton" mnemonicParsing="false" onMouseClicked="#registerButtonClicked" prefHeight="40.0" prefWidth="75.0" text="REGISTER" />
+                  <Button fx:id="registerButton" mnemonicParsing="false" onMouseClicked="#registerButtonClicked" prefHeight="55.0" prefWidth="109.0" text="REGISTER" />
+                  <VBox prefHeight="113.0" prefWidth="182.0" />
+                  <Button fx:id="loginButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#loginButtonClicked" prefHeight="55.0" prefWidth="109.0" text="LOG IN" textAlignment="CENTER" />
                </children>
             </HBox>
          </children></VBox>

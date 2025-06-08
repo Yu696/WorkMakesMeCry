@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.RegisterController">
+   <children>
+      <HBox alignment="CENTER" layoutY="42.0" prefHeight="66.0" prefWidth="600.0" spacing="20">
+         <children>
+            <Label prefHeight="20.0" prefWidth="59.0" text="姓名" />
+            <VBox prefHeight="100.0" prefWidth="96.0" />
+            <TextField fx:id="registerNameText" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutY="97.0" prefHeight="59.0" prefWidth="600.0" spacing="20">
+         <children>
+            <Label prefHeight="20.0" prefWidth="59.0" text="性别" />
+            <VBox prefHeight="100.0" prefWidth="96.0" />
+            <TextField fx:id="registerSexText" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="2.0" layoutY="148.0" prefHeight="59.0" prefWidth="600.0" spacing="20">
+         <children>
+            <Label prefHeight="20.0" prefWidth="59.0" text="账号" />
+            <VBox prefHeight="100.0" prefWidth="96.0" />
+            <TextField fx:id="registerAccountNumberText" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="2.0" layoutY="200.0" prefHeight="59.0" prefWidth="600.0" spacing="20">
+         <children>
+            <Label prefHeight="20.0" prefWidth="59.0" text="密码" />
+            <VBox prefHeight="100.0" prefWidth="96.0" />
+            <PasswordField fx:id="registerPassWordText" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="-12.0" layoutY="259.0" prefHeight="59.0" prefWidth="600.0" spacing="20">
+         <children>
+            <Label alignment="CENTER" prefHeight="20.0" prefWidth="69.0" text="再次确认" />
+            <VBox prefHeight="59.0" prefWidth="114.0" />
+            <PasswordField fx:id="registerAgainText" />
+         </children>
+      </HBox>
+      <Button fx:id="traceBackButton" layoutX="207.0" layoutY="332.0" mnemonicParsing="false" onMouseClicked="#closeRegister" text="返回" />
+      <Button fx:id="confirmButton" layoutX="350.0" layoutY="332.0" mnemonicParsing="false" onMouseClicked="#confirmButtonClicked" text="确定" />
+      <ChoiceBox fx:id="memberTypeChoser" layoutX="316.0" layoutY="8.0" prefHeight="23.0" prefWidth="161.0">
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem fx:id="supervisor" mnemonicParsing="false" text="supervisor"/>
+                  <MenuItem fx:id="administrator" mnemonicParsing="false" text="administrator" />
+                  <MenuItem fx:id="gridder" mnemonicParsing="false" text="gridder" />
+              </items>
+            </ContextMenu>
+         </contextMenu></ChoiceBox>
+      <Label layoutX="264.0" layoutY="12.0" text="工种" />
+   </children>
+</AnchorPane>
