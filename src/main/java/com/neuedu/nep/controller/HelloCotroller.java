@@ -40,7 +40,7 @@ public class HelloCotroller {
 
     @FXML
     public void loginButtonClicked(){
-        loginButton.setText("已点击");
+        handleLogIn();
 
     }
     //加载背景图片，并随容器的大小变化而改变
@@ -89,4 +89,28 @@ public class HelloCotroller {
         }
     }
 
+    private void handleLogIn(){
+        try {
+            //加载注册界面的FXML文件
+            FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("/com/neuedu/nep/logInWindow.fxml"));
+            Parent root=fxmlLoader.load();
+
+            Stage logInStage = new Stage();
+            logInStage.setTitle("用户登录");
+            logInStage.initModality(Modality.APPLICATION_MODAL);
+            logInStage.initOwner(mainStage);
+
+            //调用controller
+            LogInController logInController= fxmlLoader.getController();
+            logInController.setDialogStage(logInStage);
+
+            //显示注册界面
+            logInStage.setScene(new Scene(root));
+            logInStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+
+    }
 }

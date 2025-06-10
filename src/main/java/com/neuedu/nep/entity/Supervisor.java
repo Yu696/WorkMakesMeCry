@@ -1,6 +1,12 @@
 package com.neuedu.nep.entity;
 
-public class Supervisor extends Member{
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public class Supervisor extends Member  {
+    @JsonIgnore
+    private int maxElementIndexForInsert;
+
+
     private String state;
 
     public Supervisor(String name, String sex, String account,String passWord, String state) {
@@ -25,5 +31,7 @@ public class Supervisor extends Member{
                 "state='" + state + '\'' +
                 '}';
     }
+
+
 }
 
