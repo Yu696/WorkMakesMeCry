@@ -1,5 +1,9 @@
 package com.neuedu.nep.util;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.neuedu.nep.entity.Member;
+import com.neuedu.nep.io.JsonIO;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Scene;
@@ -13,6 +17,12 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.neuedu.nep.io.JsonIO.read;
 
 /*
 * 错误提醒工具类，用于在JavaFX应用程序中显示各种类型的提醒
@@ -180,5 +190,8 @@ public class AlertUtils {
         fadeIn.play();
         slideIn.play();
     }
+
+    //对用户信息进行比对
+
 }
 
