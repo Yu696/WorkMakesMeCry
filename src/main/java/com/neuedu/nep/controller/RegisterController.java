@@ -152,7 +152,7 @@ public class RegisterController {
                     AlertUtils.AlertType.ERROR,
                     registerStage);
         } else {
-            writer(ownFilePath, account);
+            writer(ownFilePath, member);
             showAlert("成功",
                     "恭喜您成功注册",
                     AlertUtils.AlertType.SUCCESS,
