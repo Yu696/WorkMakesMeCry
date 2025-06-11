@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.AQIReportAssignController" spacing="10">
+    <!-- 使用 Insets 类型设置 padding -->
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+    <Label text="公众监督AQI反馈数据指派" style="-fx-font-size: 20px; -fx-font-weight: bold"/>
+    <VBox spacing="5">
+        <Label text="请输入AQI反馈数据编号："/>
+        <TextField fx:id="aqiReportIdTextField"/>
+        <Button fx:id="queryButton" text="查询"/>
+    </VBox>
+    <TableView fx:id="reportDetailTableView" prefHeight="200">
+        <columns>
+            <TableColumn fx:id="propertyColumn" text="属性" prefWidth="150" />
+            <TableColumn fx:id="valueColumn" text="值" prefWidth="350" />
+        </columns>
+    </TableView>
+    <Label text="公众监督AQI反馈数据指派："/>
+    <VBox spacing="5">
+        <Label text="请选择你要指派的网格员："/>
+        <ComboBox fx:id="GridderComboBox" />
+        <Button fx:id="assignButton" text="立即指派"/>
+    </VBox>
+</VBox>
