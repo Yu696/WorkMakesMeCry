@@ -1,6 +1,7 @@
 package com.neuedu.nep.controller;
 
 
+import com.neuedu.nep.entity.AQIData;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
@@ -20,6 +21,8 @@ import javafx.collections.FXCollections;
 
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import static com.neuedu.nep.io.JsonIO.read;
 
 public class AQIReportAssignController {
     @FXML
@@ -52,8 +55,6 @@ public class AQIReportAssignController {
     }
     @FXML
     private  void initialize(){
-        AQIStage.setHeight(500);
-        AQIStage.setMinWidth(500);
 
         // 初始化表格视图
         propertyColumn.setCellValueFactory(new PropertyValueFactory<>("property"));
@@ -124,25 +125,31 @@ public class AQIReportAssignController {
 
     private String getReportDetailById(String reportId) {
         // 这里模拟数据，实际应从数据库或 API 获取
-        if ("1".equals(reportId)) {
-            return "AQI反馈数据编号: 001\n" +
-                    "所在省区域: 广东省\n" +
-                    "所在市区域: 广州市\n" +
-                    "详细地址: 天河区XX路XX号\n" +
-                    "预估AQI等级: 良\n" +
-                    "反馈日期: 2025-06-10\n" +
-                    "反馈信息详情: 空气质量良好，无明显污染\n" +
-                    "反馈者姓名: 张三";
-        } else if ("2".equals(reportId)) {
-            return "AQI反馈数据编号: 002\n" +
-                    "所在省区域: 江苏省\n" +
-                    "所在市区域: 南京市\n" +
-                    "详细地址: 鼓楼区XX街XX号\n" +
-                    "预估AQI等级: 轻度污染\n" +
-                    "反馈日期: 2025-06-09\n" +
-                    "反馈信息详情: 空气中有轻微异味\n" +
-                    "反馈者姓名: 李四";
+        List<AQIData> list=read("/dataBase/members/AQIDataBase.Json",new AQIData());
+        for(AQIData data : list){
+            if(data.getNum().equals(reportId)){
+                return data.toString();
+            }
         }
+//        if ("1".equals(reportId)) {
+//            return "AQI反馈数据编号: 001\n" +
+//                    "所在省区域: 广东省\n" +
+//                    "所在市区域: 广州市\n" +
+//                    "详细地址: 天河区XX路XX号\n" +
+//                    "预估AQI等级: 良\n" +
+//                    "反馈日期: 2025-06-10\n" +
+//                    "反馈信息详情: 空气质量良好，无明显污染\n" +
+//                    "反馈者姓名: 张三";
+//        } else if ("2".equals(reportId)) {
+//            return "AQI反馈数据编号: 002\n" +
+//                    "所在省区域: 江苏省\n" +
+//                    "所在市区域: 南京市\n" +
+//                    "详细地址: 鼓楼区XX街XX号\n" +
+//                    "预估AQI等级: 轻度污染\n" +
+//                    "反馈日期: 2025-06-09\n" +
+//                    "反馈信息详情: 空气中有轻微异味\n" +
+//                    "反馈者姓名: 李四";
+//        }
         return null;
     }
 

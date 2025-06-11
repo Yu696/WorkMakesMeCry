@@ -171,6 +171,7 @@ public class LogInController {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(logInStage);
             stage.show();
+            showAlert("成功","又是美好的打工日~  欢迎"+member.getName()+"员工为本公司添砖加瓦", AlertUtils.AlertType.SUCCESS,stage);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
