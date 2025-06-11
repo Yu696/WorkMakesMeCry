@@ -1,7 +1,10 @@
 package com.neuedu.nep.controller;
 
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.*;
@@ -9,31 +12,49 @@ import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
 public class AQIReportAssignController {
     @FXML
     private TextField aqiReportIdTextField;
+
     @FXML
     private Button queryButton;
 
     @FXML
     private TableView<ReportDetailItem> reportDetailTableView;
+
     @FXML
     private TableColumn<ReportDetailItem, String> propertyColumn;
+
     @FXML
     private TableColumn<ReportDetailItem, String> valueColumn;
+
     @FXML
     private ComboBox<String> GridderComboBox;
+
     @FXML
     private Button assignButton;
+
+    @FXML
+    private Stage AQIStage;
+
+    @FXML
+    public Stage getAQIStage(){
+        return AQIStage;
+    }
     @FXML
     private  void initialize(){
+        AQIStage.setHeight(500);
+        AQIStage.setMinWidth(500);
+
         // 初始化表格视图
         propertyColumn.setCellValueFactory(new PropertyValueFactory<>("property"));
         valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
@@ -48,6 +69,23 @@ public class AQIReportAssignController {
         queryButton.setOnAction(event ->handleQuery());
         //给分配按钮加一个事件监听器
         assignButton.setOnAction(event ->handleAssign());
+
+        // 创建标题标签
+        Label titleLabel = new Label("公众监督AQI反馈数据指派");
+        titleLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+        // 创建输入编号相关控件
+        Label inputIdLabel = new Label("请输入AQI反馈数据编号：");
+        TextField idTextField = new TextField();
+
+        Button queryButton = new Button("查询");
+
+        // 创建指派相关控件
+        Label assignLabel = new Label("公众监督AQI反馈数据指派：");
+        Label GridderLabel = new Label("请选择你要指派的网格员：");
+        ComboBox<String> GridderComboBox = new ComboBox<>();
+        // 可通过网格员ComboBox.getItems().add("网格员姓名1"); 等方式预先添加可选网格员
+        Button assignButton = new Button("立即指派");
 
 
 

@@ -11,12 +11,12 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 
-
+import java.util.List;
 
 import static com.neuedu.nep.io.JsonIO.read;
 import static com.neuedu.nep.io.JsonIO.writer;
-import static com.neuedu.nep.util.AlertUtils.registeredOrNot;
 import static com.neuedu.nep.util.AlertUtils.showAlert;
+import static com.neuedu.nep.util.FindUtil.registeredOrNot;
 
 public class RegisterController {
     @FXML
@@ -129,18 +129,18 @@ public class RegisterController {
         //检测之前是否有注册过
         switch (choice){
             case "supervisor":
-                registerUser = registeredOrNot("/dataBase/members/supervisor.Json", account);
+                registerUser = registeredOrNotSim("/dataBase/members/supervisor.Json", account);
                 ownFilePath="/dataBase/members/supervisor.Json";
                 member=new Supervisor(name,sex,account,passWord,"free");
                 break;
                 
             case "administrator":
-                registerUser = registeredOrNot("/dataBase/members/administrator.Json", account);
+                registerUser = registeredOrNotSim("/dataBase/members/administrator.Json", account);
                 ownFilePath="/dataBase/members/administrator.Json";
                 break;
                 
             case "gridder": 
-                registerUser = registeredOrNot("/dataBase/members/gridder.Json", account);
+                registerUser = registeredOrNotSim("/dataBase/members/gridder.Json", account);
                 ownFilePath="/dataBase/members/gridder.Json";
                 break;
             default:
@@ -160,5 +160,16 @@ public class RegisterController {
             closeRegister();
         }
     }
-
+    public static boolean registeredOrNotSim(String filePath, String memberAccount) {
+        Member member=new Member("余润东","男","111","123");
+        List<Member> memberList=read(filePath,member);
+        System.out.println("名单读取成功");
+        for(Member a : memberList){
+            System.out.println(a.toString());
+            if(a.getAccount().equals(memberAccount) ){
+                return true;
+            }
+        }
+            return false;
+    }
 }

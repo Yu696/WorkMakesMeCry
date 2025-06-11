@@ -14,7 +14,7 @@ public class Administrator extends Member  {
 
     @Override
     public String toString() {
-        return "Administer{}";
+        return super.toString()+"Administrator{}";
     }
 
 

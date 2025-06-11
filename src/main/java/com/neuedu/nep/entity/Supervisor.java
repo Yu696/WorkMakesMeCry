@@ -6,9 +6,7 @@ public class Supervisor extends Member  {
     @JsonIgnore
     private int maxElementIndexForInsert;
 
-
     private String state;
-
     public Supervisor(String name, String sex, String account,String passWord, String state) {
         super(name, sex, account,passWord);
         this.state = state;
