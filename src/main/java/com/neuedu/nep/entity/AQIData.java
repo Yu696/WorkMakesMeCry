@@ -1,4 +1,8 @@
 package com.neuedu.nep.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AQIData {
 //    "AQI反馈数据编号": "001",
 //            "所在省区域": "广东省",
@@ -8,13 +12,21 @@ public class AQIData {
 //            "反馈日期":"2025-06-10",
 //            "反馈信息详情": "空气质量良好，无明显污染",
 //            "反馈者姓名": "张三"
+    @JsonProperty("num")
     private String num;
+    @JsonProperty("province")
     private String province;
+    @JsonProperty("city")
     private String city;
+    @JsonProperty("detailedAddress")
     private String detailedAddress;
+    @JsonProperty("AQILevel")
     private String AQILevel;
+    @JsonProperty("date")
     private String date;
+    @JsonProperty("detailedInfo")
     private String detailedInfo;
+    @JsonProperty("publisher")
     private String publisher;
 
     public AQIData(String num, String province, String detailedAddress, String city, String AQILevel, String date, String detailedInfo, String publisher) {
@@ -97,13 +109,13 @@ public class AQIData {
 
     @Override
     public String toString() {
-        return "AQI反馈数据编号: " +this.num+"\n"+
-                "所在省区域: "+this.province+"\n" +
-                "所在市区域: "+this.city+"\n" +
-                "详细地址: "+this.detailedAddress+"\n" +
-                "预估AQI等级: "+this.AQILevel+"\n" +
-                "反馈日期: "+this.date+"\n" +
-                "反馈信息详情: "+this.detailedInfo+"\n" +
-                "反馈者姓名: "+this.publisher+"\n";
+        return "AQI反馈数据编号:" +this.num+
+                "所在省区域:"+this.province+
+                "所在市区域:"+this.city+
+                "详细地址:"+this.detailedAddress+
+                "预估AQI等级:"+this.AQILevel+
+                "反馈日期:"+this.date+
+                "反馈信息详情:"+this.detailedInfo+
+                "反馈者姓名:"+this.publisher;
     }
 }

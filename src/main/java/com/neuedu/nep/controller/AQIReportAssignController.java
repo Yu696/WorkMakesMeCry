@@ -1,7 +1,12 @@
 package com.neuedu.nep.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.neuedu.nep.entity.AQIData;
+import com.neuedu.nep.entity.Gridder;
+import com.neuedu.nep.io.JsonIO;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
@@ -14,6 +19,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,13 +40,31 @@ public class AQIReportAssignController {
     private Button queryButton;
 
     @FXML
-    private TableView<ReportDetailItem> reportDetailTableView;
+    private TableColumn<ReportDetailItem,String> numColumn;
 
     @FXML
-    private TableColumn<ReportDetailItem, String> propertyColumn;
+    private TableColumn<ReportDetailItem,String> provinceColumn;
 
     @FXML
-    private TableColumn<ReportDetailItem, String> valueColumn;
+    private TableView<AQIData> reportDetailTableView;
+
+    @FXML
+    private TableColumn<AQIData,String> AQIColumn;
+
+    @FXML
+    private TableColumn<AQIData,String> dataColumn;
+
+    @FXML
+    private TableColumn<AQIData,String> infoColumn;
+
+    @FXML
+    private TableColumn<AQIData,String> nameColumn;
+
+    @FXML
+    private TableColumn<AQIData,String> cityColumn;
+
+    @FXML
+    private TableColumn<AQIData,String> detailedAddress;
 
     @FXML
     private ComboBox<String> GridderComboBox;
@@ -55,16 +81,47 @@ public class AQIReportAssignController {
     }
     @FXML
     private  void initialize(){
+        TableColumn<AQIData, String> numColumn = new TableColumn<>("编号");
+        numColumn.setCellValueFactory(new PropertyValueFactory<>("num"));
 
-        // 初始化表格视图
-        propertyColumn.setCellValueFactory(new PropertyValueFactory<>("property"));
-        valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+        TableColumn<AQIData, String> provinceColumn = new TableColumn<>("省份");
+        provinceColumn.setCellValueFactory(new PropertyValueFactory<>("province"));
 
-        // 设置列宽
-        propertyColumn.setPrefWidth(150);
-        valueColumn.setPrefWidth(300);
+        TableColumn<AQIData, String> cityColumn = new TableColumn<>("城市");
+        cityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
+
+        TableColumn<AQIData, String> addressColumn = new TableColumn<>("详细地址");
+        addressColumn.setCellValueFactory(new PropertyValueFactory<>("detailedAddress"));
+
+        TableColumn<AQIData, String> levelColumn = new TableColumn<>("AQI等级");
+        levelColumn.setCellValueFactory(new PropertyValueFactory<>("AQILevel"));
+
+        TableColumn<AQIData, String> dateColumn = new TableColumn<>("日期");
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        TableColumn<AQIData, String> infoColumn = new TableColumn<>("详细信息");
+        infoColumn.setCellValueFactory(new PropertyValueFactory<>("detailedInfo"));
+
+        TableColumn<AQIData, String> publisherColumn = new TableColumn<>("发布者");
+        publisherColumn.setCellValueFactory(new PropertyValueFactory<>("publisher"));
+
+        // 添加列到TableView
+        reportDetailTableView.getColumns().addAll(
+                numColumn, provinceColumn, cityColumn,
+                addressColumn, levelColumn, dateColumn,
+                infoColumn, publisherColumn
+        );
+        ObservableList<AQIData> aqiDataList = parseJSONData("/dataBase/members/AQIDataBase.Json");
+
+        // 将数据设置到TableView
+        reportDetailTableView.setItems(aqiDataList);
         //初始化下拉框选项
-        List<String>gridderList= Arrays.asList("李晓旭","张大千","王力");
+        List<Gridder> list=read("/dataBase/members/gridder.json",new Gridder());
+        List<String>gridderList= new ArrayList<>();
+        for(Gridder a : list){
+            gridderList.add(a.getName());
+            System.out.println("已添加网格员"+a.getName()+"进入菜单");
+        }
         GridderComboBox.getItems().addAll(gridderList);
         //给查询按钮加一个事件监听器
         queryButton.setOnAction(event ->handleQuery());
@@ -91,6 +148,7 @@ public class AQIReportAssignController {
 
 
     }
+
     private void handleQuery() {
         String aqiReportId = aqiReportIdTextField.getText();
         if (aqiReportId.isEmpty()) {
@@ -102,25 +160,21 @@ public class AQIReportAssignController {
         String reportDetail = getReportDetailById(aqiReportId);
         if (reportDetail == null) {
             showAlert("错误", "未找到对应 AQI 报告");
-            return;
         }
-        ObservableList<ReportDetailItem> tableData = parseReportDetail(reportDetail);
-        reportDetailTableView.setItems(tableData);
+
 
 
     }
-    private ObservableList<ReportDetailItem> parseReportDetail(String reportDetail) {
-        ObservableList<ReportDetailItem> data = FXCollections.observableArrayList();
-        String[] lines = reportDetail.split("\n");
 
-        for (String line : lines) {
-            if (line.contains(":")) {
-                String[] parts = line.split(":", 2);
-                data.add(new ReportDetailItem(parts[0].trim(), parts[1].trim()));
+    //  对数据进行处理来将其拆分成表格能读取的形式
+    private ObservableList<AQIData> parseJSONData(String dataPath) {
+            ObservableList<AQIData> data = FXCollections.observableArrayList();
+            List<AQIData> aqiDataList=read(dataPath,new AQIData());
+            for(AQIData a :aqiDataList ){
+                System.out.println(a.toString());
             }
-        }
-
-        return data;
+            data.addAll(aqiDataList);
+            return data;
     }
 
     private String getReportDetailById(String reportId) {
