@@ -1,16 +1,13 @@
 package com.neuedu.nep.controller;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.neuedu.nep.entity.AQIData;
 import com.neuedu.nep.entity.Gridder;
-import com.neuedu.nep.io.JsonIO;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
-import javafx.geometry.Insets;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.*;
@@ -19,15 +16,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-import java.io.IOException;
-import java.io.InputStream;
+
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 
-import javafx.scene.layout.VBox;
+
 import javafx.stage.Stage;
 
 import static com.neuedu.nep.io.JsonIO.read;

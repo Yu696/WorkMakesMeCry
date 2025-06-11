@@ -46,7 +46,7 @@ public class HelloCotroller {
     //加载背景图片，并随容器的大小变化而改变
     @FXML
     private void initialize(){
-        Image backgroundImage=new Image(getClass().getResourceAsStream("/image/back.jpg"));
+        Image backgroundImage=new Image(getClass().getResourceAsStream("/image/back3.jpg"));
         //初始化
         updateBackGroundImage(backgroundImage);
 
@@ -59,7 +59,7 @@ public class HelloCotroller {
         });
     }
 
-    public void updateBackGroundImage(Image image){
+    private void updateBackGroundImage(Image image){
         BackgroundSize backgroundSize=new BackgroundSize(paneRoot.getWidth(),paneRoot.getHeight(),false,false,false,false);
         BackgroundImage image1=new BackgroundImage(image,BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,backgroundSize);
         paneRoot.setBackground(new Background(image1));
