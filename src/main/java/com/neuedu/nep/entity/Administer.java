@@ -1,6 +1,10 @@
 package com.neuedu.nep.entity;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Administer extends Member{
+
     public Administer() {
     }
 
