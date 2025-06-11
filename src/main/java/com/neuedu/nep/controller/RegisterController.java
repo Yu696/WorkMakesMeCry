@@ -1,6 +1,5 @@
 package com.neuedu.nep.controller;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.json.JsonMapper;
+
 import com.neuedu.nep.entity.Member;
 import com.neuedu.nep.entity.Supervisor;
 import com.neuedu.nep.io.JsonIO;
@@ -12,14 +11,11 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Iterator;
-import java.util.List;
+
 
 import static com.neuedu.nep.io.JsonIO.read;
-import static com.neuedu.nep.io.JsonIO.writeAMember;
+import static com.neuedu.nep.io.JsonIO.writer;
+import static com.neuedu.nep.util.AlertUtils.registeredOrNot;
 import static com.neuedu.nep.util.AlertUtils.showAlert;
 
 public class RegisterController {
@@ -86,7 +82,8 @@ public class RegisterController {
            public MenuItem fromString(String s) {
                return null;}
            });
-       }
+        memberTypeChoser.setValue(supervisor);
+    }
 
     @FXML
     private Stage registerStage;
@@ -132,18 +129,18 @@ public class RegisterController {
         //检测之前是否有注册过
         switch (choice){
             case "supervisor":
-                registerUser = registeredOrNot("/dataBase/members/supervisor.Json", member);
+                registerUser = registeredOrNot("/dataBase/members/supervisor.Json", account);
                 ownFilePath="/dataBase/members/supervisor.Json";
                 member=new Supervisor(name,sex,account,passWord,"free");
                 break;
                 
             case "administrator":
-                registerUser = registeredOrNot("/dataBase/members/administrator.Json", member);
+                registerUser = registeredOrNot("/dataBase/members/administrator.Json", account);
                 ownFilePath="/dataBase/members/administrator.Json";
                 break;
                 
             case "gridder": 
-                registerUser = registeredOrNot("/dataBase/members/gridder.Json", member);
+                registerUser = registeredOrNot("/dataBase/members/gridder.Json", account);
                 ownFilePath="/dataBase/members/gridder.Json";
                 break;
             default:
@@ -155,11 +152,7 @@ public class RegisterController {
                     AlertUtils.AlertType.ERROR,
                     registerStage);
         } else {
-            try {
-                writeAMember(ownFilePath, member);
-            } catch (IOException | URISyntaxException e) {
-                throw new RuntimeException();
-            }
+            writer(ownFilePath, account);
             showAlert("成功",
                     "恭喜您成功注册",
                     AlertUtils.AlertType.SUCCESS,
@@ -168,40 +161,4 @@ public class RegisterController {
         }
     }
 
-
-    //对用户信息进行比对
-    public boolean registeredOrNot(String filePath,Member member) {
-        List<Object> memberList = null;
-        try {
-            memberList = read(filePath, Object.class);
-            System.out.println("名单读取成功");
-            JsonMapper jsonMapper = new JsonMapper();
-            JsonNode jsonNode = jsonMapper.readTree(getClass().getResource(filePath));
-            if (jsonNode.isArray()) {
-                for (JsonNode jsonItem : jsonNode) {
-                    if (jsonItem.get("account").asText().equals(member.getAccount())) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-            if (jsonNode.isObject()) {
-                if (jsonNode.get("account").asText().equals(member.getAccount())) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            if (jsonNode.isEmpty()){
-                return false;
-            }
-            else {
-                System.out.println("数据格式不正确");
-                return true;
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
 }

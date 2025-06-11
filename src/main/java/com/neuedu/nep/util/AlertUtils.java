@@ -1,5 +1,9 @@
 package com.neuedu.nep.util;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.neuedu.nep.entity.Member;
+import com.neuedu.nep.io.JsonIO;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Scene;
@@ -13,6 +17,12 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.neuedu.nep.io.JsonIO.read;
 
 /*
 * 错误提醒工具类，用于在JavaFX应用程序中显示各种类型的提醒
@@ -179,6 +189,49 @@ public class AlertUtils {
         // 播放入场动画
         fadeIn.play();
         slideIn.play();
+    }
+
+    //对用户信息进行比对
+    public static boolean registeredOrNot(String filePath, String memberAccount) {
+            Member member=new Member("余润东","男","111","123");
+            List<Member> memberList=read(filePath,member);
+            System.out.println("名单读取成功");
+            for(Member a : memberList){
+                System.out.println(a.toString());
+                if(a.getAccount().equals(memberAccount)){
+                    return true;
+                }
+            }
+            return false;
+            //            JsonMapper jsonMapper = new JsonMapper();
+//            JsonNode jsonNode = jsonMapper.readTree(JsonIO.class.getResource(filePath));
+//            System.out.println(jsonNode.asText());
+//            if (jsonNode.isArray()) {
+//                for (JsonNode jsonItem : jsonNode) {
+//                    if (jsonItem.get("account").asText().equals(memberAccount)) {
+//                        return true;
+//                    }
+//                }
+//                return false;
+//            }
+//            if (jsonNode.isObject()) {
+//                if (jsonNode.get("account").asText().equals(memberAccount)) {
+//                    return true;
+//                } else {
+//                    return false;
+//                }
+//            }
+//            if (jsonNode.isEmpty()){
+//                return false;
+//            }
+//            else {
+//                System.out.println("数据格式不正确");
+//                return true;
+//            }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+
     }
 }
 

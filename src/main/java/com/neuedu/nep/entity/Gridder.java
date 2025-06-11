@@ -1,6 +1,10 @@
 package com.neuedu.nep.entity;
 
-public class Gridder extends Member{
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public class Gridder extends Member  {
+    @JsonIgnore
+    private int maxElementIndexForInsert;
     public Gridder() {
     }
 
@@ -12,4 +16,7 @@ public class Gridder extends Member{
     public String toString() {
         return "Gridder{}";
     }
+
+
+
 }
