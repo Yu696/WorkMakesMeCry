@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.neuedu.nep.controller.LogInController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.LogInController">
+         <children>
+            <HBox alignment="CENTER" layoutX="2.0" layoutY="69.0" prefHeight="59.0" prefWidth="600.0" spacing="20">
+               <children>
+                  <Label prefHeight="20.0" prefWidth="59.0" text="账号" />
+                  <VBox prefHeight="100.0" prefWidth="96.0" />
+                  <TextField fx:id="loginAccountNumberText" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="2.0" layoutY="128.0" prefHeight="59.0" prefWidth="600.0" spacing="20">
+               <children>
+                  <Label prefHeight="20.0" prefWidth="59.0" text="密码" />
+                  <VBox prefHeight="100.0" prefWidth="96.0" />
+                  <PasswordField fx:id="loginPassWordText" />
+               </children>
+            </HBox>
+            <Button fx:id="traceBackButton" layoutX="207.0" layoutY="332.0" mnemonicParsing="false" onMouseClicked="#closeThisPage" text="返回" />
+            <Button fx:id="confirmButton" layoutX="350.0" layoutY="332.0" mnemonicParsing="false" onMouseClicked="#confirmButtonClicked" text="确定" />
+            <ChoiceBox fx:id="memberTypeChoser" layoutX="316.0" layoutY="8.0" prefHeight="23.0" prefWidth="161.0">
+               <contextMenu>
+                  <ContextMenu>
+                     <items>
+                        <MenuItem fx:id="supervisor" mnemonicParsing="false" text="supervisor" />
+                        <MenuItem fx:id="administrator" mnemonicParsing="false" text="administrator" />
+                        <MenuItem fx:id="gridder" mnemonicParsing="false" text="gridder" />
+                     </items>
+                  </ContextMenu>
+               </contextMenu>
+            </ChoiceBox>
+            <Label layoutX="264.0" layoutY="12.0" text="工种" />
+            <Box layoutX="124.0" layoutY="211.0" />
+         </children>
+      </AnchorPane>
