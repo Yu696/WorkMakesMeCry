@@ -32,7 +32,7 @@
                               <Stop color="#c3b643" />
                               <Stop color="#5aaeee" offset="0.33707865168539325" />
                               <Stop color="#1b487c" offset="0.7602996254681648" />
-                              <Stop color="BLACK" offset="1.0" />
+                              <Stop color="#1d1065" offset="1.0" />
                            </stops>
                         </RadialGradient>
                      </textFill>
