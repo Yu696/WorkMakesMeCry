@@ -19,6 +19,7 @@ public class Main1 extends Application {
         stage.setTitle("NEUEDU 测试版");
         stage.setScene(scene);
         stage.show();
+
     }
 
     public static void main(String[] args) {

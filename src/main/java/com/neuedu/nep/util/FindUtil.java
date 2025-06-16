@@ -1,6 +1,8 @@
 package com.neuedu.nep.util;
 
+import com.neuedu.nep.entity.AQIData;
 import com.neuedu.nep.entity.Member;
+import javafx.collections.ObservableList;
 
 import java.net.URISyntaxException;
 import java.util.List;
@@ -35,34 +37,16 @@ public class FindUtil {
             }
         }
         return false;
-        //            JsonMapper jsonMapper = new JsonMapper();
-//            JsonNode jsonNode = jsonMapper.readTree(JsonIO.class.getResource(filePath));
-//            System.out.println(jsonNode.asText());
-//            if (jsonNode.isArray()) {
-//                for (JsonNode jsonItem : jsonNode) {
-//                    if (jsonItem.get("account").asText().equals(memberAccount)) {
-//                        return true;
-//                    }
-//                }
-//                return false;
-//            }
-//            if (jsonNode.isObject()) {
-//                if (jsonNode.get("account").asText().equals(memberAccount)) {
-//                    return true;
-//                } else {
-//                    return false;
-//                }
-//            }
-//            if (jsonNode.isEmpty()){
-//                return false;
-//            }
-//            else {
-//                System.out.println("数据格式不正确");
-//                return true;
-//            }
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+    }
 
+    public static AQIData findItAndGetIt(String filePath, String num){
+        List<AQIData> list=read(filePath,new AQIData());
+        for(AQIData i : list){
+            if (i.getNum().equals(num)){
+                return i;
+            }
+        }
+        System.out.println("未找到--来自finditandfetit");
+        return null;
     }
 }

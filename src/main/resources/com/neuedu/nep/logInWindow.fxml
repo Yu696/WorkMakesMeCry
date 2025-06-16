@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,18 +8,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.LogInController">
+<AnchorPane fx:id="paneRoot1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.LogInController" stylesheets="@aqi.css">
          <children>
-            <HBox alignment="CENTER" layoutX="2.0" layoutY="69.0" prefHeight="59.0" prefWidth="600.0" spacing="20">
+            <HBox alignment="CENTER" layoutX="2.0" layoutY="69.0" prefHeight="78.0" prefWidth="600.0" spacing="20">
                <children>
-                  <Label prefHeight="20.0" prefWidth="59.0" text="账号" />
+                  <Label alignment="CENTER" prefHeight="40.0" prefWidth="80.0" text="账号" >
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
                   <VBox prefHeight="100.0" prefWidth="96.0" />
                   <TextField fx:id="loginAccountNumberText" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" layoutX="2.0" layoutY="128.0" prefHeight="59.0" prefWidth="600.0" spacing="20">
+            <HBox alignment="CENTER" layoutX="2.0" layoutY="153.0" prefHeight="78.0" prefWidth="600.0" spacing="20">
                <children>
-                  <Label prefHeight="20.0" prefWidth="59.0" text="密码" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="80.0" text="密码">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
                   <VBox prefHeight="100.0" prefWidth="96.0" />
                   <PasswordField fx:id="loginPassWordText" />
                </children>

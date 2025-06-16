@@ -7,6 +7,8 @@ import com.neuedu.nep.util.AlertUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.skin.CellSkinBase;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -19,6 +21,9 @@ import static com.neuedu.nep.util.AlertUtils.showAlert;
 import static com.neuedu.nep.util.FindUtil.registeredOrNot;
 
 public class RegisterController {
+    @FXML
+    private AnchorPane paneRoot2;
+
     @FXML
     private TextField registerAccountNumberText;
 
@@ -68,7 +73,18 @@ public class RegisterController {
 
     @FXML
     public void initialize() {
-       memberTypeChoser.getItems().addAll(supervisor,administrator,gridder);
+        Image backgroundImage=new Image(getClass().getResourceAsStream("/image/back.jpg"));
+        //初始化
+        updateBackGroundImage(backgroundImage);
+
+        //随容器大小改变
+        paneRoot2.widthProperty().addListener((v,oldVal,newVal)->{
+            updateBackGroundImage(backgroundImage);
+        });
+        paneRoot2.heightProperty().addListener((n,oldval,newval)->{
+            updateBackGroundImage(backgroundImage);
+        });
+        memberTypeChoser.getItems().addAll(supervisor,administrator,gridder);
        memberTypeChoser.setConverter(new StringConverter<MenuItem>() {
            @Override
            public String toString(MenuItem menuItem) {
@@ -85,6 +101,11 @@ public class RegisterController {
         memberTypeChoser.setValue(supervisor);
     }
 
+    private void updateBackGroundImage(Image image){
+        BackgroundSize backgroundSize=new BackgroundSize(paneRoot2.getWidth(),paneRoot2.getHeight(),false,false,false,false);
+        BackgroundImage image1=new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,backgroundSize);
+        paneRoot2.setBackground(new Background(image1));
+    }
     @FXML
     private Stage registerStage;
 
@@ -113,6 +134,11 @@ public class RegisterController {
                     "注册信息不能为空",
                     AlertUtils.AlertType.ERROR,
                     registerStage);
+            return;
+        }
+
+        if(!(sex.equals("男") || sex.equals("女"))){
+            showAlert("警告","非人类物种禁止访问该平台", AlertUtils.AlertType.WARNING,registerStage);
             return;
         }
 
@@ -152,7 +178,7 @@ public class RegisterController {
                     AlertUtils.AlertType.ERROR,
                     registerStage);
         } else {
-            writer(ownFilePath, account);
+            writer(ownFilePath, member);
             showAlert("成功",
                     "恭喜您成功注册",
                     AlertUtils.AlertType.SUCCESS,

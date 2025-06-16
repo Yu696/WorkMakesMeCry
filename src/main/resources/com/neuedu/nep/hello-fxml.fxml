@@ -1,40 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="paneRoot" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.HelloCotroller">
+<AnchorPane fx:id="paneRoot" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.HelloCotroller" >
    <children>
-      <VBox alignment="BOTTOM_CENTER" minWidth="200" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="BOTTOM_CENTER" minWidth="200" prefHeight="300.0" prefWidth="600.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" AnchorPane.topAnchor="0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../image/earth.png" />
-                     </image></ImageView>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="100.0" prefWidth="510.0" text="NEU EDUCATION" textAlignment="CENTER">
-                     <font>
-                        <Font size="40.0" />
-                     </font></Label>
+                  <Label prefHeight="15.0" prefWidth="67.0" text="test mode" textAlignment="CENTER" />
                </children>
             </HBox>
-            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="32.0" prefWidth="800.0">
                <children>
-                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label text="test mode" />
-                     </children>
-                  </HBox>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="111.0" prefWidth="510.0" text="小趴菜环境监管系统" textAlignment="CENTER">
+                     <font>
+                        <Font name="SansSerif Regular" size="38.0" />
+                     </font>
+                     <textFill>
+                        <RadialGradient centerX="0.4888888888888889" centerY="0.48571428571428577" radius="0.5">
+                           <stops>
+                              <Stop color="#c3b643" />
+                              <Stop color="#5aaeee" offset="0.33707865168539325" />
+                              <Stop color="#1b487c" offset="0.7602996254681648" />
+                              <Stop color="#1d1065" offset="1.0" />
+                           </stops>
+                        </RadialGradient>
+                     </textFill>
+                  </Label>
+               </children>
+            </HBox>
+            <VBox alignment="CENTER" prefHeight="53.0" prefWidth="800.0">
+               <children>
+                  <Button fx:id="registerButton" mnemonicParsing="false" onMouseClicked="#registerButtonClicked" prefHeight="34.0" prefWidth="88.0" text="REGISTER" textAlignment="CENTER">
+                     <textFill>
+                        <RadialGradient centerX="0.4888888888888889" centerY="0.48571428571428577" radius="0.5">
+                           <stops>
+                              <Stop color="#721818" />
+                              <Stop color="#7c74e4" offset="0.33707865168539325" />
+                              <Stop color="BLACK" offset="0.7602996254681648" />
+                              <Stop color="#ff0606" offset="1.0" />
+                           </stops>
+                        </RadialGradient>
+                     </textFill></Button>
+               </children>
+            </VBox>
+            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" AnchorPane.topAnchor="0">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <children>
+                  <Button fx:id="loginButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#loginButtonClicked" prefHeight="34.0" prefWidth="88.0" text="LOG IN" textAlignment="CENTER">
+                     <textFill>
+                        <RadialGradient centerX="0.4888888888888889" centerY="0.48571428571428577" radius="0.5">
+                           <stops>
+                              <Stop color="#431818" />
+                              <Stop color="#431818" offset="0.00749063670411985" />
+                              <Stop color="#7c74e4" offset="0.33707865168539325" />
+                              <Stop color="BLACK" offset="0.7602996254681648" />
+                              <Stop color="#ff0909" offset="1.0" />
+                           </stops>
+                        </RadialGradient>
+                     </textFill>
+                  </Button>
                </children>
             </HBox>
             <HBox alignment="TOP_CENTER" prefHeight="113.0" prefWidth="600.0">
                <children>
-                  <Button fx:id="registerButton" mnemonicParsing="false" onMouseClicked="#registerButtonClicked" prefHeight="55.0" prefWidth="109.0" text="REGISTER" />
-                  <VBox prefHeight="113.0" prefWidth="182.0" />
-                  <Button fx:id="loginButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#loginButtonClicked" prefHeight="55.0" prefWidth="109.0" text="LOG IN" textAlignment="CENTER" />
+                  <VBox alignment="TOP_CENTER" prefHeight="113.0" prefWidth="182.0" />
                </children>
             </HBox>
          </children></VBox>

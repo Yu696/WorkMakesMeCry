@@ -9,7 +9,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -17,12 +19,15 @@ import javafx.util.StringConverter;
 import java.io.*;
 import java.net.URISyntaxException;
 
+
 import static com.neuedu.nep.util.AlertUtils.showAlert;
 import static com.neuedu.nep.util.FindUtil.getThisPerson;
 import static com.neuedu.nep.util.FindUtil.registeredOrNot;
 
 
 public class LogInController {
+    @FXML
+    private AnchorPane paneRoot1;
 
     @FXML
     private TextField loginAccountNumberText;
@@ -63,6 +68,17 @@ public class LogInController {
 
     @FXML
     public void initialize(){
+        Image backgroundImage=new Image(getClass().getResourceAsStream("/image/back.jpg"));
+        //初始化
+        updateBackGroundImage(backgroundImage);
+
+        //随容器大小改变
+        paneRoot1.widthProperty().addListener((v,oldVal,newVal)->{
+            updateBackGroundImage(backgroundImage);
+        });
+        paneRoot1.heightProperty().addListener((n,oldval,newval)->{
+            updateBackGroundImage(backgroundImage);
+        });
         memberTypeChoser.getItems().addAll(supervisor,administrator,gridder);
         memberTypeChoser.setConverter(new StringConverter<MenuItem>() {
             @Override
@@ -78,6 +94,12 @@ public class LogInController {
                 return null;}
         });
         memberTypeChoser.setValue(supervisor);
+    }
+
+    private void updateBackGroundImage(Image image){
+        BackgroundSize backgroundSize=new BackgroundSize(paneRoot1.getWidth(),paneRoot1.getHeight(),false,false,false,false);
+        BackgroundImage image1=new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,backgroundSize);
+        paneRoot1.setBackground(new Background(image1));
     }
 
     //处理登录按钮按下之后的用户界面
@@ -171,6 +193,7 @@ public class LogInController {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(logInStage);
             stage.show();
+            showAlert("成功","又是美好的打工日~  欢迎"+member.getName()+"员工为本公司添砖加瓦", AlertUtils.AlertType.SUCCESS,stage);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
