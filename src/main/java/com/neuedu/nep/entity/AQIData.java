@@ -30,8 +30,9 @@ public class AQIData {
     private String publisher;
     @JsonProperty("gridder")
     private String gridder;
-
-    public AQIData(String num, String province, String detailedAddress, String city, String AQILevel, String date, String detailedInfo, String publisher,String gridder) {
+    @JsonProperty("state")
+    private String state;
+    public AQIData(String num, String province, String detailedAddress, String city, String AQILevel, String date, String detailedInfo, String publisher) {
         this.num = num;
         this.province = province;
         this.detailedAddress = detailedAddress;
@@ -41,6 +42,7 @@ public class AQIData {
         this.detailedInfo = detailedInfo;
         this.publisher = publisher;
         this.gridder=null;
+        this.state=null;
     }
 
     public AQIData() {
@@ -48,6 +50,14 @@ public class AQIData {
 
     public String getNum() {
         return num;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public void setNum(String num) {
@@ -128,6 +138,7 @@ public class AQIData {
                 "反馈日期:"+this.date+"\n"+
                 "反馈信息详情:"+this.detailedInfo+"\n"+
                 "反馈者姓名:"+this.publisher+"\n"+
-                "分配给的网格员:"+this.gridder;
+                "分配给的网格员:"+this.gridder+"\n"+
+                "报告状态:"+this.state;
     }
 }

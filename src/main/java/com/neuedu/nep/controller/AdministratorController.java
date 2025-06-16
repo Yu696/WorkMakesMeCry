@@ -19,7 +19,6 @@ import javafx.scene.control.Alert.AlertType;
 import java.util.ArrayList;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
@@ -31,7 +30,7 @@ import static com.neuedu.nep.io.JsonIO.*;
 import static com.neuedu.nep.util.FindUtil.findItAndGetIt;
 
 
-public class AQIReportAssignController {
+public class AdministratorController {
     @FXML
     private Button turnBackButton;
 
@@ -238,10 +237,10 @@ public class AQIReportAssignController {
         if(selectedData==null) {
              AQIData aqiData= findItAndGetIt("/dataBase/members/AQIDataBaseCreatedBySup.Json", reportId);
              aqiData.setGridder(selectedGridder);
-             writer("/dataBase/members/AQIDataBaseCreatedByadm.json",aqiData);
+             writer("/dataBase/members/AQIDataBaseCreatedByAdm.json",aqiData);
         }
         selectedData.setGridder(selectedGridder);
-        writer("/dataBase/members/AQIDataBaseCreatedByadm.json",selectedData);
+        writer("/dataBase/members/AQIDataBaseCreatedByAdm.json",selectedData);
         // 模拟分配报告
         showAlert("成功", "已将报告 " + reportId + " 分配给 " + selectedGridder);
     }
