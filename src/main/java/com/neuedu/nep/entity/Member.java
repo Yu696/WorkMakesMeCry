@@ -22,6 +22,7 @@ public class Member extends JsonNodeFactory {
     private String sex;
     private String account;
     private String passWord;
+    private String job;
     public Member() {
     }
 
@@ -34,6 +35,7 @@ public class Member extends JsonNodeFactory {
         this.sex = sex;
         this.account = account;
         this.passWord=passWord;
+        this.job=null;
     }
 
     public String getName() {

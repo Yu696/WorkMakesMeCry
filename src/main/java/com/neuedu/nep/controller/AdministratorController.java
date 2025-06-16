@@ -1,8 +1,11 @@
 package com.neuedu.nep.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neuedu.nep.entity.AQIData;
 import com.neuedu.nep.entity.Gridder;
+import com.neuedu.nep.io.JsonIO;
+import com.neuedu.nep.util.AlertUtils;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
@@ -16,6 +19,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -31,6 +38,10 @@ import static com.neuedu.nep.util.FindUtil.findItAndGetIt;
 
 
 public class AdministratorController {
+    @FXML
+    private Button backButton;
+
+
     @FXML
     private Button turnBackButton;
 
@@ -82,6 +93,11 @@ public class AdministratorController {
     @FXML
     public Stage getAQIStage(){
         return AQIStage;
+    }
+
+    @FXML
+    public void setAdministratorStage(Stage stage){
+        this.AQIStage=stage;
     }
     @FXML
     private  void initialize(){
@@ -136,7 +152,14 @@ public class AdministratorController {
         queryButton.setOnAction(event ->handleQuery());
         //给分配按钮加一个事件监听器
         assignButton.setOnAction(event ->handleAssign());
-        turnBackButton.setOnAction(e->handleDismiss());
+        turnBackButton.setOnAction(e-> {
+            try {
+                handleDismiss();
+            } catch (IOException | URISyntaxException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        backButton.setOnAction(e->handleBack());
         // 创建标题标签
         Label titleLabel = new Label("公众监督AQI反馈数据指派");
         titleLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
@@ -157,10 +180,29 @@ public class AdministratorController {
 
 
     }
-
-    private void handleDismiss() {
-        //代写
+    private void handleBack(){
+        ObservableList<AQIData> aqiDataList = parseJSONData("/dataBase/members/AQIDataBaseCreatedBySup.Json");
+        reportDetailTableView.setItems(aqiDataList);
     }
+
+    private void handleDismiss() throws IOException, URISyntaxException {
+        AQIData aqiData=reportDetailTableView.getSelectionModel().getSelectedItem();
+        ObjectMapper objectMapper=new ObjectMapper();
+        List<AQIData> list=objectMapper.readValue(JsonIO.class.getResource("/dataBase/members/AQIDataBaseCreatedBySup.Json"),objectMapper.getTypeFactory().constructCollectionType(List.class,AQIData.class));
+        List<AQIData> modelList=new ArrayList<>(list);
+        list.forEach(aqiData1 -> {
+            if(aqiData1.getNum().equals(aqiData.getNum())){
+                aqiData1.setState("打回");
+                modelList.remove(aqiData1);
+            }
+        });
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(JsonIO.class.getResource("/dataBase/members/AQIDataBaseCreatedBySup.Json").toURI()),list);
+        Stage stage=(Stage) backButton.getScene().getWindow();
+        AlertUtils.showAlert("成功","打回报告成功，监督员正在全力更改...", AlertUtils.AlertType.SUCCESS,stage);
+    }
+
+
+
     private void handleQuery() {
         String aqiReportId = aqiReportIdTextField.getText();
 //        System.out.println(aqiReportId);
@@ -177,7 +219,6 @@ public class AdministratorController {
                 reportDetailTableView.setItems(showList);
             }
         }
-
 
     }
 

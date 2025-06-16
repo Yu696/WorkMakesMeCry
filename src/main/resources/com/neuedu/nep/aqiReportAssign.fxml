@@ -11,9 +11,14 @@
    <children>
       <TabPane prefHeight="683.0" prefWidth="954.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
-            <Tab text="Untitled Tab 1">
+            <Tab text="人员管理">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="609.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="609.0">
+                     <children>
+                        <TreeView editable="true" layoutX="14.0" layoutY="25.0" prefHeight="292.0" prefWidth="555.0" styleClass="vbox" />
+                        <TreeView editable="true" layoutX="14.0" layoutY="328.0" prefHeight="292.0" prefWidth="555.0" styleClass="vbox" />
+                        <Label layoutX="698.0" layoutY="5.0" text="Label" />
+                     </children></AnchorPane>
                </content>
             </Tab>
             <Tab fx:id="dataDistrabuteView" text="数据指派界面">
@@ -32,6 +37,8 @@
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
                                     <Button fx:id="queryButton" prefHeight="31.0" prefWidth="72.0" text="查询" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" />
+                                    <Button fx:id="backButton" mnemonicParsing="false" text="返回" />
                                  </children>
                               </HBox>
                            </children>

@@ -42,7 +42,7 @@ public class AQIData {
         this.detailedInfo = detailedInfo;
         this.publisher = publisher;
         this.gridder=null;
-        this.state=null;
+        this.state="未检阅";
     }
 
     public AQIData() {

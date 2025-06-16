@@ -8,7 +8,8 @@
     "date":"2025-06-10",
     "detailedInfo": "空气质量良好，无明显污染,adjajdajdjaskdjladjlasjdlasdasdasdasdasdadada",
     "publisher": "张三",
-    "gridder": "null"
+    "gridder": "null",
+    "state": "未检阅"
   },
   {
     "num": "002",
@@ -19,7 +20,8 @@
     "date": "2025-06-09",
     "detailedInfo": "空气中有轻微异味",
     "publisher": "李四",
-    "gridder": "null"
+    "gridder": "null",
+    "state": "未检阅"
   }
 
 ]

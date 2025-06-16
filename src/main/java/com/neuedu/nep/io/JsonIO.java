@@ -27,13 +27,13 @@ import java.util.List;
 //统一使用类路径寻找
 public class JsonIO {
     public static void writer(String filePath, Object obj) {
-        File file= null;
+        File file = null;
         try {
             file = new File(JsonIO.class.getResource(filePath).toURI());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-        ObjectMapper mapper=new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         try (FileWriter writer = new FileWriter(file, true)) { // true 表示追加模式
 
             // 如果文件不存在或为空，写入数组起始符号
@@ -89,12 +89,17 @@ public class JsonIO {
     //  对数据进行处理来将其拆分成表格能读取的形式
     public static ObservableList<AQIData> parseJSONData(String dataPath) {
         ObservableList<AQIData> data = FXCollections.observableArrayList();
-        List<AQIData> aqiDataList=read(dataPath,new AQIData());
-        for(AQIData a :aqiDataList ){
+        List<AQIData> aqiDataList = read(dataPath, new AQIData());
+        for (AQIData a : aqiDataList) {
             System.out.println(a.toString());
         }
         data.addAll(aqiDataList);
         return data;
     }
 
+    public static void deleteAQI(String filePath, AQIData aqiData) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<AQIData> list = objectMapper.readValue(JsonIO.class.getResource("/dataBase/members/AQIDataBaseCreatedBySup.Json"), objectMapper.getTypeFactory().constructCollectionType(List.class, AQIData.class));
+        list.removeIf(aqiData1 -> aqiData.getNum().equals(aqiData1.getNum()));
+    }
 }
