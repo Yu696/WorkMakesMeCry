@@ -8,8 +8,10 @@ import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import com.neuedu.nep.entity.AQIData;
 import com.neuedu.nep.entity.Member;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 
 import java.io.*;
@@ -83,4 +85,16 @@ public class JsonIO {
 
         return list;
     }
+
+    //  对数据进行处理来将其拆分成表格能读取的形式
+    public static ObservableList<AQIData> parseJSONData(String dataPath) {
+        ObservableList<AQIData> data = FXCollections.observableArrayList();
+        List<AQIData> aqiDataList=read(dataPath,new AQIData());
+        for(AQIData a :aqiDataList ){
+            System.out.println(a.toString());
+        }
+        data.addAll(aqiDataList);
+        return data;
+    }
+
 }

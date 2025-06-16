@@ -3,7 +3,6 @@ package com.neuedu.nep.controller;
 
 import com.neuedu.nep.entity.AQIData;
 import com.neuedu.nep.entity.Gridder;
-
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
@@ -20,15 +19,25 @@ import javafx.scene.control.Alert.AlertType;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.stream.Stream;
+
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 
 
 import javafx.stage.Stage;
 
-import static com.neuedu.nep.io.JsonIO.read;
+import static com.neuedu.nep.io.JsonIO.*;
+import static com.neuedu.nep.util.FindUtil.findItAndGetIt;
+
 
 public class AQIReportAssignController {
+    @FXML
+    private Button turnBackButton;
+
+    @FXML
+    private TextArea detailedInfoTextArea;
+
     @FXML
     private TextField aqiReportIdTextField;
 
@@ -107,10 +116,15 @@ public class AQIReportAssignController {
                 addressColumn, levelColumn, dateColumn,
                 infoColumn, publisherColumn
         );
-        ObservableList<AQIData> aqiDataList = parseJSONData("/dataBase/members/AQIDataBase.Json");
+        ObservableList<AQIData> aqiDataList = parseJSONData("/dataBase/members/AQIDataBaseCreatedBySup.Json");
 
         // 将数据设置到TableView
         reportDetailTableView.setItems(aqiDataList);
+        reportDetailTableView.getSelectionModel().selectedItemProperty().addListener(((observableValue, aqiData, t1) -> {
+            if(t1!=null){
+                detailedInfoTextArea.setText(t1.toString());
+            }
+        }));
         //初始化下拉框选项
         List<Gridder> list=read("/dataBase/members/gridder.json",new Gridder());
         List<String>gridderList= new ArrayList<>();
@@ -123,7 +137,7 @@ public class AQIReportAssignController {
         queryButton.setOnAction(event ->handleQuery());
         //给分配按钮加一个事件监听器
         assignButton.setOnAction(event ->handleAssign());
-
+        turnBackButton.setOnAction(e->handleDismiss());
         // 创建标题标签
         Label titleLabel = new Label("公众监督AQI反馈数据指派");
         titleLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
@@ -145,37 +159,43 @@ public class AQIReportAssignController {
 
     }
 
+    private void handleDismiss() {
+        //代写
+    }
     private void handleQuery() {
         String aqiReportId = aqiReportIdTextField.getText();
+//        System.out.println(aqiReportId);
         if (aqiReportId.isEmpty()) {
             showAlert("错误", "请输入AQI报告ID");
             return;
         }
-
-        // 模拟根据报告 ID 查询报告详情
-        String reportDetail = getReportDetailById(aqiReportId);
-        if (reportDetail == null) {
-            showAlert("错误", "未找到对应 AQI 报告");
+        ObservableList<AQIData> list=parseJSONData("/dataBase/members/AQIDataBaseCreatedBySup.Json");
+        ObservableList<AQIData> showList = FXCollections.observableArrayList();
+        for(AQIData a : list){
+            if(a.getNum().equals(aqiReportId)){
+                showList.add(a);
+                reportDetailTableView.getItems().remove(0,list.size()-1);
+                reportDetailTableView.setItems(showList);
+            }
         }
 
 
-
     }
 
-    //  对数据进行处理来将其拆分成表格能读取的形式
-    private ObservableList<AQIData> parseJSONData(String dataPath) {
-            ObservableList<AQIData> data = FXCollections.observableArrayList();
-            List<AQIData> aqiDataList=read(dataPath,new AQIData());
-            for(AQIData a :aqiDataList ){
-                System.out.println(a.toString());
-            }
-            data.addAll(aqiDataList);
-            return data;
-    }
+//    //  对数据进行处理来将其拆分成表格能读取的形式
+//    private ObservableList<AQIData> parseJSONData(String dataPath) {
+//            ObservableList<AQIData> data = FXCollections.observableArrayList();
+//            List<AQIData> aqiDataList=read(dataPath,new AQIData());
+//            for(AQIData a :aqiDataList ){
+//                System.out.println(a.toString());
+//            }
+//            data.addAll(aqiDataList);
+//            return data;
+//    }
 
     private String getReportDetailById(String reportId) {
         // 这里模拟数据，实际应从数据库或 API 获取
-        List<AQIData> list=read("/dataBase/members/AQIDataBase.Json",new AQIData());
+        List<AQIData> list=read("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
         for(AQIData data : list){
             if(data.getNum().equals(reportId)){
                 return data.toString();
@@ -205,16 +225,23 @@ public class AQIReportAssignController {
 
     private void handleAssign() {
         String reportId = aqiReportIdTextField.getText();
+        AQIData selectedData=reportDetailTableView.getSelectionModel().getSelectedItem();
         String selectedGridder = GridderComboBox.getValue();
-
-        if (reportId.isEmpty()) {
-            showAlert("错误", "请输入报告ID");
+        if (reportId.isEmpty() && selectedData==null) {
+            showAlert("错误", "请输入报告ID或选中一个报告");
             return;
         }
         if (selectedGridder == null) {
             showAlert("错误", "请选择网格员");
             return;
         }
+        if(selectedData==null) {
+             AQIData aqiData= findItAndGetIt("/dataBase/members/AQIDataBaseCreatedBySup.Json", reportId);
+             aqiData.setGridder(selectedGridder);
+             writer("/dataBase/members/AQIDataBaseCreatedByadm.json",aqiData);
+        }
+        selectedData.setGridder(selectedGridder);
+        writer("/dataBase/members/AQIDataBaseCreatedByadm.json",selectedData);
         // 模拟分配报告
         showAlert("成功", "已将报告 " + reportId + " 分配给 " + selectedGridder);
     }
@@ -249,8 +276,6 @@ public class AQIReportAssignController {
             return value;
         }
     }
-
-
 
 
 }

@@ -28,8 +28,10 @@ public class AQIData {
     private String detailedInfo;
     @JsonProperty("publisher")
     private String publisher;
+    @JsonProperty("gridder")
+    private String gridder;
 
-    public AQIData(String num, String province, String detailedAddress, String city, String AQILevel, String date, String detailedInfo, String publisher) {
+    public AQIData(String num, String province, String detailedAddress, String city, String AQILevel, String date, String detailedInfo, String publisher,String gridder) {
         this.num = num;
         this.province = province;
         this.detailedAddress = detailedAddress;
@@ -38,6 +40,7 @@ public class AQIData {
         this.date = date;
         this.detailedInfo = detailedInfo;
         this.publisher = publisher;
+        this.gridder=null;
     }
 
     public AQIData() {
@@ -75,6 +78,14 @@ public class AQIData {
         this.city = city;
     }
 
+    public String getGridder() {
+        return gridder;
+    }
+
+    public void setGridder(String gridder) {
+        this.gridder = gridder;
+    }
+
     public String getAQILevel() {
         return AQILevel;
     }
@@ -109,13 +120,14 @@ public class AQIData {
 
     @Override
     public String toString() {
-        return "AQI反馈数据编号:" +this.num+
-                "所在省区域:"+this.province+
-                "所在市区域:"+this.city+
-                "详细地址:"+this.detailedAddress+
-                "预估AQI等级:"+this.AQILevel+
-                "反馈日期:"+this.date+
-                "反馈信息详情:"+this.detailedInfo+
-                "反馈者姓名:"+this.publisher;
+        return "AQI反馈数据编号:" +this.num+"\n"+
+                "所在省区域:"+this.province+"\n"+
+                "所在市区域:"+this.city+"\n"+
+                "详细地址:"+this.detailedAddress+"\n"+
+                "预估AQI等级:"+this.AQILevel+"\n"+
+                "反馈日期:"+this.date+"\n"+
+                "反馈信息详情:"+this.detailedInfo+"\n"+
+                "反馈者姓名:"+this.publisher+"\n"+
+                "分配给的网格员:"+this.gridder;
     }
 }

@@ -71,7 +71,7 @@ public class AlertUtils {
         if (type != AlertType.ERROR) { // 错误类型不自动关闭
             new Thread(() -> {
                 try {
-                    Thread.sleep(2000); // 2秒后自动关闭
+                    Thread.sleep(4000); // 4秒后自动关闭
                     javafx.application.Platform.runLater(alertStage::close);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

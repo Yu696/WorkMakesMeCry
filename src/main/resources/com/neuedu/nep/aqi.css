@@ -1,0 +1,193 @@
+/* 全局样式 */
+.root {
+    -fx-background-color: #f5f7fa;
+    -fx-font-family: "Microsoft YaHei", "SimHei", sans-serif;
+}
+
+/* 标签样式 */
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+}
+
+.title-label {
+    -fx-text-fill: #2c3e50;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 0;
+}
+
+.subtitle-label {
+    -fx-text-fill: #555555;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* 输入控件样式 */
+.text-field {
+    -fx-background-color: white;
+    -fx-background-radius: 4px;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 4px;
+    -fx-padding: 6px 10px;
+    -fx-font-size: 14px;
+    -fx-transition: all 0.3s ease;
+}
+
+.text-field:focused {
+    -fx-border-color: #3498db;
+    -fx-effect: dropshadow(gaussian, rgba(52, 152, 219, 0.4), 5, 0, 0, 0);
+}
+
+/* 按钮样式 */
+.button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-background-radius: 4px;
+    -fx-padding: 6px 16px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease;
+}
+
+.button:hover {
+    -fx-background-color: #2980b9;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 0);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.button:pressed {
+    -fx-background-color: #2471a3;
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+
+/* 表格样式 */
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 6px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 6px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 0);
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f5f7fa;
+    -fx-background-radius: 6px 6px 0 0;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+    -fx-size: 35px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.table-view .table-cell {
+    -fx-border-color: transparent;
+    -fx-padding: 5px;
+}
+
+.table-row-cell {
+    -fx-cell-size: 30px;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f9f9f9;
+}
+
+.table-row-cell:even {
+    -fx-background-color: white;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #d6eaf8;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #ebf5fb;
+    -fx-transition: all 0.2s ease;
+}
+
+/* 下拉框样式 */
+.combo-box {
+    -fx-background-color: white;
+    -fx-background-radius: 4px;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 4px;
+    -fx-padding: 4px;
+    -fx-font-size: 14px;
+}
+
+.combo-box:hover {
+    -fx-border-color: #3498db;
+}
+
+.combo-box .list-cell {
+    -fx-padding: 6px 10px;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: #f5f7fa;
+    -fx-background-radius: 0 4px 4px 0;
+}
+
+.combo-box .arrow {
+    -fx-background-color: #333333;
+}
+
+/* 选项卡样式 */
+.tab-pane {
+    -fx-tab-min-height: 30px;
+    -fx-tab-max-height: 30px;
+}
+
+.tab-pane .tab-header-background {
+    -fx-background-color: #f5f7fa;
+}
+
+.tab {
+    -fx-background-color: #e0e0e0;
+    -fx-background-radius: 6px 6px 0 0;
+    -fx-padding: 5px 15px;
+}
+
+.tab:selected {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0 #e0e0e0 white #e0e0e0;
+    -fx-border-width: 1px;
+}
+
+.tab .tab-label {
+    -fx-text-fill: #333333;
+    -fx-font-weight: bold;
+}
+
+/* 容器样式 */
+.vbox, .hbox, .anchor-pane {
+    -fx-padding: 10px;
+    -fx-spacing: 10px;
+}
+
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 6px;
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 0);
+}
+
+/* 布局样式 */
+.main-container {
+    -fx-padding: 20px;
+    -fx-spacing: 20px;
+}
+
+.content-container {
+    -fx-spacing: 15px;
+}
+
+.form-container {
+    -fx-spacing: 10px;
+}

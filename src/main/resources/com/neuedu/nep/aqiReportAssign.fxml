@@ -1,25 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="10" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.AQIReportAssignController">
-    <!-- 使用 Insets 类型设置 padding -->
-    <padding>
-        <Insets bottom="20" left="20" right="20" top="20" />
-    </padding>
-    <Label style="-fx-font-size: 20px; -fx-font-weight: bold" text="公众监督AQI反馈数据指派" />
-    <VBox spacing="5">
-        <Label text="请输入AQI反馈数据编号：" />
-        <TextField fx:id="aqiReportIdTextField" />
-        <Button fx:id="queryButton" text="查询" />
-    </VBox>
-    <TableView fx:id="reportDetailTableView" prefHeight="200" />
-    <Label text="公众监督AQI反馈数据指派：" />
-    <VBox spacing="5">
-        <Label text="请选择你要指派的网格员：" />
-        <ComboBox fx:id="GridderComboBox" />
-        <Button fx:id="assignButton" text="立即指派" />
-    </VBox>
-</VBox>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="954.0" stylesheets="@aqi.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.AQIReportAssignController">
+   <children>
+      <TabPane prefHeight="683.0" prefWidth="954.0" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab text="Untitled Tab 1">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="609.0" />
+               </content>
+            </Tab>
+            <Tab fx:id="dataDistrabuteView" text="数据指派界面">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="627.0" prefWidth="929.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="158.0" layoutY="8.0" prefHeight="34.0" prefWidth="608.0" style="-fx-font-size: 20px; -fx-font-weight: bold" text="公众监督AQI反馈数据指派" textAlignment="CENTER">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </Label>
+                        <VBox layoutX="15.0" layoutY="42.0" prefHeight="103.0" prefWidth="923.0" spacing="5">
+                           <children>
+                              <Label text="请输入AQI反馈数据编号：" />
+                              <TextField fx:id="aqiReportIdTextField" prefHeight="33.0" prefWidth="793.0" />
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="queryButton" prefHeight="31.0" prefWidth="72.0" text="查询" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <TableView fx:id="reportDetailTableView" layoutX="17.0" layoutY="159.0" prefHeight="200" prefWidth="921.0" />
+                        <HBox alignment="CENTER_RIGHT" layoutX="293.0" layoutY="450.0" prefHeight="100.0" prefWidth="661.0">
+                           <children>
+                              <VBox alignment="CENTER" spacing="5">
+                                 <children>
+                                    <Label text="请选择你要指派的网格员：" />
+                                    <ComboBox fx:id="GridderComboBox" />
+                                    <Button fx:id="assignButton" text="立即指派" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <TextArea fx:id="detailedInfoTextArea" layoutX="17.0" layoutY="367.0" prefHeight="263.0" prefWidth="439.0" promptText="数据详情" styleClass="subtitle-label">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </TextArea>
+                        <Button fx:id="turnBackButton" layoutX="471.0" layoutY="576.0" mnemonicParsing="false" text="打回" />
+                        <Label alignment="TOP_LEFT" layoutX="460.0" layoutY="512.0" prefHeight="67.0" prefWidth="186.0" text="请仔细核验左边数据的真实与准确性，如有必要可点击下面按钮打回报告" wrapText="true" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
