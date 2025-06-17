@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="paneRoot" prefHeight="984.0" prefWidth="1294.0" stylesheets="@aqi.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.FeedbackController">
+   <children>
+      <Label fx:id="title1" alignment="CENTER" contentDisplay="CENTER" layoutX="311.0" layoutY="22.0" prefHeight="79.0" prefWidth="687.0" styleClass="title-label" text="公众监督员管理信息反馈" textAlignment="CENTER">
+         <font>
+            <Font size="45.0" />
+         </font>
+      </Label>
+      <Label fx:id="title2" layoutX="969.0" layoutY="88.0" text="公众监督员：" />
+      <Label fx:id="supervisorName" layoutX="1100.0" layoutY="88.0" text="Label" />
+      <TableView fx:id="Aqilevel" layoutX="48.0" layoutY="146.0" prefHeight="200.0" prefWidth="711.0">
+        <columns>
+          <TableColumn fx:id="Grade" prefWidth="75.0" text="级别" />
+          <TableColumn fx:id="description" prefWidth="150.0" text="说明" />
+            <TableColumn fx:id="influence" prefWidth="484.0" text="对健康影响" />
+        </columns>
+      </TableView>
+      <Label fx:id="title3" layoutX="48.0" layoutY="357.0" text="反馈详细信息">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="title4" layoutX="152.0" layoutY="429.0" text="所在地：" />
+      <Label fx:id="title5" layoutX="796.0" layoutY="429.0" text="所在市：" />
+      <ChoiceBox fx:id="cityChoice" layoutX="1000.0" layoutY="423.0" prefHeight="36.0" prefWidth="200.0" />
+      <Label fx:id="title6" layoutX="152.0" layoutY="524.0" text="具体地址：" />
+      <TextField fx:id="address" layoutX="363.0" layoutY="518.0" prefHeight="36.0" prefWidth="837.0" />
+      <Label fx:id="title7" layoutX="152.0" layoutY="615.0" text="预估AQI等级：" />
+      <ChoiceBox fx:id="provinceChoice" layoutX="363.0" layoutY="423.0" prefHeight="36.0" prefWidth="200.0" />
+      <ChoiceBox fx:id="GradeChoice" layoutX="363.0" layoutY="609.0" prefHeight="36.0" prefWidth="200.0" />
+      <Label fx:id="title8" layoutX="148.0" layoutY="705.0" text="请填写反馈信息:" />
+      <TextField fx:id="information" layoutX="363.0" layoutY="705.0" prefHeight="130.0" prefWidth="821.0" />
+      <Button fx:id="backButton" layoutX="224.0" layoutY="883.0" mnemonicParsing="false" onMouseClicked="#backButtonClicked" prefHeight="48.0" prefWidth="200.0" text="返回" />
+      <Button fx:id="submitButton" layoutX="917.0" layoutY="883.0" mnemonicParsing="false" onMouseClicked="#submitButtonClicked" prefHeight="48.0" prefWidth="200.0" text="提交反馈数据" />
+      <DatePicker fx:id="time" layoutX="969.0" layoutY="611.0" />
+      <Label fx:id="title9" layoutX="796.0" layoutY="615.0" text="提交时间：" />
+      <TableView fx:id="showDetail" layoutX="820.0" layoutY="181.0"  prefHeight="163.0" prefWidth="357.0">
+        <columns>
+          <TableColumn fx:id="num1" prefWidth="100.0" text="编号" />
+          <TableColumn fx:id="time1" minWidth="3.0" prefWidth="141.0" text="上传时间" />
+            <TableColumn fx:id="state" prefWidth="114.0" text="状态" />
+        </columns>
+      </TableView>
+      <Label fx:id="title10" layoutX="820.0" layoutY="146.0" text="历史上传数据：" />
+   </children>
+</AnchorPane>
