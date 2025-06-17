@@ -1,20 +1,27 @@
 package com.neuedu.nep.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neuedu.nep.entity.*;
+import com.neuedu.nep.io.JsonIO;
 import com.neuedu.nep.util.AlertUtils;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import com.neuedu.nep.util.FileUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -24,39 +31,78 @@ import static com.neuedu.nep.io.JsonIO.read;
 import static com.neuedu.nep.io.JsonIO.writer;
 import static com.neuedu.nep.util.AlertUtils.showAlert;
 import static com.neuedu.nep.util.FileUtils.getMaxIdFromJson;
-//
-//@JsonTypeInfo(
-//        use = JsonTypeInfo.Id.NAME,
-//        include=JsonTypeInfo.As.PROPERTY,
-//        property = "type"
-//)
-//@JsonSubTypes({
-//        @JsonSubTypes.Type(value = AQIData.class, name = "AQIDataBaseCreatedBySup"),
-//})
-//@JsonIgnoreProperties({ "maxElementIndexForInsert", "MemberPath" })
-
-public class FeedbackController implements Initializable {
-
-    @FXML private Label supervisorName;      // 监督员姓名
-    @FXML private AnchorPane paneRoot;
-    @FXML private Button submitButton;
-    @FXML private Button backButton;
-    @FXML private TextField address;         // 地址输入框
-    @FXML private ChoiceBox<String> GradeChoice; // AQI等级选择框
-    @FXML private TableView<AqiLevel> Aqilevel; // AQI等级表格
-    @FXML private TableColumn<AqiLevel, String> Grade;  // AQI等级表
-    @FXML private TableColumn<AqiLevel, String> description;
-    @FXML private TableColumn<AqiLevel, String> influence;
-    @FXML private ChoiceBox<String> provinceChoice; // 省份选择框
-    @FXML private ChoiceBox<String> cityChoice;     // 城市选择框
-    @FXML private TextField information;
-    @FXML private DatePicker time;
-    @FXML private TableView<AQIData> showDetail;
-    @FXML private TableColumn<AqiLevel, String> num1;
-    @FXML private TableColumn<AqiLevel, String> time1;
-    @FXML private TableColumn<AqiLevel, String> state;
+import static com.neuedu.nep.util.FileUtils.getThisPerson;
 
 
+public class SupervisorController implements Initializable {
+    @FXML
+    private TabPane Tab;
+
+    @FXML
+    public Label title2;
+
+    @FXML
+    private Label supervisorName;      // 监督员姓名
+
+    @FXML
+    private AnchorPane paneRoot;
+
+    @FXML
+    private Button submitButton;
+
+    @FXML
+    private Button backButton;
+
+    @FXML
+    private TextField address;         // 地址输入框
+
+    @FXML
+    private ChoiceBox<String> GradeChoice; // AQI等级选择框
+
+    @FXML
+    private TableView<AqiLevel> Aqilevel; // AQI等级表格
+
+    @FXML
+    private TableColumn<AqiLevel, String> Grade;  // AQI等级表
+
+    @FXML
+    private TableColumn<AqiLevel, String> description;
+
+    @FXML
+    private TableColumn<AqiLevel, String> influence;
+
+    @FXML
+    private ChoiceBox<String> provinceChoice; // 省份选择框
+
+    @FXML
+    private ChoiceBox<String> cityChoice;     // 城市选择框
+
+    @FXML
+    private TextField information;
+
+    @FXML
+    private DatePicker time;
+
+    @FXML
+    private TableView<AQIData> showDetail;
+
+    @FXML
+    private TableColumn<AqiLevel, String> num1;
+
+    @FXML
+    private TableColumn<AqiLevel, String> time1;
+
+    @FXML
+    private TableColumn<AqiLevel, String> state;
+
+    @FXML
+    private Button confirmButton;
+
+    @FXML
+    private TextArea infoText;
+
+    @FXML
+    private Button flushButton;
 
     private static int currentId = 1;
 
@@ -135,16 +181,16 @@ public class FeedbackController implements Initializable {
         }
         Aqilevel.setItems(levels);
         Grade.setCellValueFactory(cellData -> cellData.getValue().levelProperty());
-        Grade.setPrefWidth(60);
+        Grade.setPrefWidth(212);
         description.setCellValueFactory(cell -> cell.getValue().descriptionProperty());
-        description.setPrefWidth(120);
+        description.setPrefWidth(236);
         influence.setCellValueFactory(cell -> cell.getValue().influenceProperty());
-        influence.setPrefWidth(300);
+        influence.setPrefWidth(488);
     }
 
     //模拟登录用户
-    private void initUI() {
-        supervisorName.setText("张三");
+    private void initUI(String name) {
+        supervisorName.setText(name);
 
     }
 
@@ -187,19 +233,28 @@ public class FeedbackController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initUI();
+        Platform.runLater(() -> {
+            // 现在组件已附加到场景
+            Stage stage=(Stage) Tab.getScene().getWindow();
+            String nameLine=stage.getTitle();
+            String name=nameLine.split(":")[1];
+            initUI(name);
+            filterAndShowData(name);
+        });
+
         loadProvinces();
         setupAqiTable();
         initGradeChoices();
         bindCityToProvince();
         cityChoice.getSelectionModel().clearSelection();
         GradeChoice.getSelectionModel().clearSelection();
-        filterAndShowData();
+
     }
 
 
     @FXML
     private void handleSubmit() {
+        Stage stage=(Stage) submitButton.getScene().getWindow();
         String province = provinceChoice.getValue();
         String city = cityChoice.getValue();
         String detailedAddress = address.getText();
@@ -211,7 +266,7 @@ public class FeedbackController implements Initializable {
         String date;
         // 检查 DatePicker 的值是否为 null
         if (time.getValue() == null) {
-            showAlert("错误", "请选择提交时间", AlertUtils.AlertType.ERROR, FeedbackStage);
+            showAlert("错误", "请选择提交时间", AlertUtils.AlertType.ERROR, stage);
             return;
         }
         date = time.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -225,28 +280,28 @@ public class FeedbackController implements Initializable {
             showAlert("错误",
                     "未选择省份信息",
                     AlertUtils.AlertType.ERROR,
-                    FeedbackStage);
+                    stage);
             return;
         }
         if (cityChoice.getSelectionModel().isEmpty()) {
             showAlert("错误",
                     "未选择市级信息",
                     AlertUtils.AlertType.ERROR,
-                    FeedbackStage);
+                    stage);
             return;
         }
         if (address.getText().isEmpty()) {
             showAlert("错误",
                     "未填写详细地址",
                     AlertUtils.AlertType.ERROR,
-                    FeedbackStage);
+                    stage);
             return;
         }
         if (GradeChoice.getSelectionModel().isEmpty()) {
             showAlert("错误",
                     "未选择等级",
                     AlertUtils.AlertType.ERROR,
-                    FeedbackStage);
+                    stage);
             return;
         }
 
@@ -254,7 +309,7 @@ public class FeedbackController implements Initializable {
             showAlert("错误",
                     "未填写详细信息",
                     AlertUtils.AlertType.ERROR,
-                    FeedbackStage);
+                    stage);
             return;
         }
 
@@ -268,7 +323,6 @@ public class FeedbackController implements Initializable {
 
     @FXML
     private void backButtonClicked() {
-        // 这里添加按钮点击后的逻辑
         closeFeedback();
     }
 
@@ -290,33 +344,15 @@ public class FeedbackController implements Initializable {
     }
 
     private void showSuccess() {
+        Stage stage=(Stage) submitButton.getScene().getWindow();
         showAlert("成功",
                 "恭喜您成功反馈数据",
                 AlertUtils.AlertType.SUCCESS,
-                FeedbackStage);
+                stage);
     }
-
-
-    public static boolean registeredOrNot(String filePath, String aqiDatepublisher) {
-        AQIData aqiData = new AQIData("1", "广东省", "天河区XX路XX号", "广州市", "一级", "2025/6/11", "空气质量良好，无明显污染", "张三");
-        List<AQIData> list = read(filePath, aqiData);
-        System.out.println("名单读取成功");
-        for (AQIData a : list) {
-            System.out.println(a.toString());
-            if (a.getPublisher().equals(aqiDatepublisher)) {
-
-                return true;
-
-            }
-        }
-        return false;
-
-    }
-
-
 
     //展示历史记录
-    private void filterAndShowData() {
+    private void filterAndShowData(String name) {
         // 初始化第二个表格列
         num1.setCellValueFactory(new PropertyValueFactory<>("num"));
         num1.setPrefWidth(100);
@@ -324,27 +360,88 @@ public class FeedbackController implements Initializable {
         time1.setPrefWidth(150);
         state.setCellValueFactory(new PropertyValueFactory<>("state"));
         state.setPrefWidth(80);
-        String supervisor = supervisorName.getText();
         // 读取文件中的所有 AQI 数据
         List<AQIData> allData = FileUtils.readAllAqiData();
         List<AQIData> filteredData = new ArrayList<>();
 
         // 筛选出与 supervisorName 名字一样的数据
         for (AQIData data : allData) {
-            if (supervisor.equals(data.getPublisher())) {
+            if (name.equals(data.getPublisher())) {
                 filteredData.add(data);
             }
         }
         ObservableList<AQIData> observableData = FXCollections.observableArrayList(filteredData);
+        flushButton.setOnAction(e->{
+            // 读取文件中的所有 AQI 数据
+            List<AQIData> allData1 = FileUtils.readAllAqiData();
+            List<AQIData> filteredData1 = new ArrayList<>();
+            List<AQIData> submittedData = read("/dataBase/members/AQIDataBaseCreatedByAdm.json",new AQIData());
+            // 筛选出与 supervisorName 名字一样的数据 并且 如果administrator已经通过该报告，将不会再出现在表格上
+            for (AQIData data : allData1) {
+                if (name.equals(data.getPublisher()) ) {
+                    int count=0;
+                    for(AQIData data1 : submittedData){
+                        if(data1.getNum().equals(data.getNum())){
+                            count++;
+                        }
+                    }
+                    if(count==0){
+                        filteredData1.add(data);
+                    }
+                }
+            }
+            ObservableList<AQIData> observableData1 = FXCollections.observableArrayList(filteredData1);
+            showDetail.setItems(observableData1);
+        });
         // 将筛选后的数据设置到表格中
         showDetail.setItems(observableData);
-        showDetail.getSelectionModel().selectedItemProperty().addListener(((observableValue, aqiData, t1) -> {
+        showDetail.getSelectionModel().selectedItemProperty().addListener((observableValue, aqiData, t1) -> {
             if(t1!=null){
+                infoText.setText(t1.toString());
+                confirmButton.setOnAction(e->{
+                    String result=infoText.getText();
+                    System.out.println(result);
+                    String numLine=result.split("\n")[0];
+                    String num=numLine.split(":")[1];
+                    String provinceLine=result.split("\n")[1];
+                    String province=provinceLine.split(":")[1];
+                    String cityLine=result.split("\n")[2];
+                    String city=cityLine.split(":")[1];
+                    String addressLine=result.split("\n")[3];
+                    String address=addressLine.split(":")[1];
+                    String AQILevelLine=result.split("\n")[4];
+                    String AQILevel=AQILevelLine.split(":")[1];
+                    String dateLine=result.split("\n")[5];
+                    String date=dateLine.split(":")[1];
+                    String infoLine=result.split("\n")[6];
+                    String info=infoLine.split(":")[1];
+                    String publisherLine=result.split("\n")[7];
+                    String publisher=publisherLine.split(":")[1];
+                    //不能手动更改这两个，权限不够
+//                    String gridderLine=result.split("\n")[8];
+//                    String gridder=gridderLine.split(":")[1];
+//                    String stateLine=result.split("\n")[9];
+//                    String state=stateLine.split(":")[1];
+                    List<AQIData> list=read("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
+                    list.removeIf(aqiData1 -> aqiData1.getNum().equals(t1.getNum()));
+                    list.add(new AQIData(num,province,city,address,AQILevel,date,info,publisher,null,"未检阅"));
+                    System.out.println(list);
+                    ObjectMapper objectMapper=new ObjectMapper();
+                    try {
+                        File file=new File(JsonIO.class.getResource("/dataBase/members/AQIDataBaseCreatedBySup.Json").toURI());
+                        objectMapper.writerWithDefaultPrettyPrinter().writeValue(file,list);
+                        Stage stage=(Stage) confirmButton.getScene().getWindow();
+                        showAlert("成功","成功修改了此报告，正在接受监督员的审核", AlertUtils.AlertType.SUCCESS,stage);
+                        System.out.println("成功改变数据");
+                    } catch (URISyntaxException | IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
 
+
+                });
             }
-        }));
+        });
     }
-
 
 
 

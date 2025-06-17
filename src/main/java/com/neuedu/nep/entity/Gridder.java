@@ -14,7 +14,7 @@ public class Gridder extends Member  {
 
     @Override
     public String toString() {
-        return "Gridder{}";
+        return super.toString() + "Gridder{" + '}';
     }
 
     public String showInfo(){

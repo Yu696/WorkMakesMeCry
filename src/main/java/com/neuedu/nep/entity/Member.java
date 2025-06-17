@@ -5,16 +5,16 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include=JsonTypeInfo.As.PROPERTY,
-        property = "type"
-)
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = Supervisor.class, name = "supervisor"),
-        @JsonSubTypes.Type(value = Administrator.class, name = "administrator"),
-        @JsonSubTypes.Type(value = Gridder.class, name = "gridder")
-})
+//@JsonTypeInfo(
+//        use = JsonTypeInfo.Id.NAME,
+//        include=JsonTypeInfo.As.PROPERTY,
+//        property = "type"
+//)
+//@JsonSubTypes({
+//        @JsonSubTypes.Type(value = Supervisor.class, name = "supervisor"),
+//        @JsonSubTypes.Type(value = Administrator.class, name = "administrator"),
+//        @JsonSubTypes.Type(value = Gridder.class, name = "gridder")
+//})
 
 @JsonIgnoreProperties({ "maxElementIndexForInsert", "MemberPath" })
 public class Member extends JsonNodeFactory {

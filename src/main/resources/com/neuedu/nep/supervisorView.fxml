@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="993.0" stylesheets="@aqi.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.SupervisorController">
+   <children>
+      <TabPane fx:id="Tab" layoutY="1.0" prefHeight="720.0" prefWidth="993.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="提交新的反馈信息">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="720.0" prefWidth="993.0">
+                     <children>
+                        <HBox alignment="CENTER" layoutX="1.0" layoutY="377.0" prefHeight="33.0" prefWidth="993.0">
+                           <children>
+                              <Label fx:id="title7" text="预估AQI等级：" />
+                              <HBox prefHeight="50.0" prefWidth="7.0" />
+                              <ChoiceBox fx:id="GradeChoice" prefHeight="36.0" prefWidth="200.0" />
+                              <HBox prefHeight="43.0" prefWidth="152.0" />
+                              <Label fx:id="title9" text="提交时间：" />
+                              <HBox prefHeight="50.0" prefWidth="0.0" />
+                              <DatePicker fx:id="time" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="1.0" layoutY="337.0" prefHeight="34.0" prefWidth="993.0">
+                           <children>
+                              <HBox prefHeight="45.0" prefWidth="20.0" />
+                              <Label fx:id="title6" prefHeight="19.0" prefWidth="77.0" text="具体地址：" />
+                              <HBox prefHeight="64.0" prefWidth="4.0" />
+                              <TextField fx:id="address" prefHeight="16.0" prefWidth="661.0" />
+                              <HBox prefHeight="45.0" prefWidth="22.0" />
+                           </children>
+                        </HBox>
+                        <Button fx:id="submitButton" layoutX="397.0" layoutY="611.0" mnemonicParsing="false" onMouseClicked="#submitButtonClicked" prefHeight="48.0" prefWidth="200.0" text="提交反馈数据" />
+                        <TextField fx:id="information" layoutX="117.0" layoutY="428.0" prefHeight="130.0" prefWidth="821.0" promptText="请填写详细信息" />
+                        <TableView fx:id="Aqilevel" layoutX="27.0" layoutY="111.0" prefHeight="177.0" prefWidth="940.0">
+                           <columns>
+                              <TableColumn fx:id="Grade" prefWidth="212.0" text="级别" />
+                              <TableColumn fx:id="description" prefWidth="236.0" text="说明" />
+                              <TableColumn fx:id="influence" prefWidth="488.0" text="对健康影响" />
+                           </columns>
+                        </TableView>
+                        <Label fx:id="supervisorName" layoutX="825.0" layoutY="84.0" text="Label" />
+                        <Label fx:id="title2" layoutX="722.0" layoutY="83.0" text="公众监督员：" />
+                        <Label fx:id="title1" alignment="CENTER" contentDisplay="CENTER" layoutX="132.0" layoutY="44.0" prefHeight="79.0" prefWidth="687.0" styleClass="title-label" text="公众监督员管理信息反馈" textAlignment="CENTER">
+                           <font>
+                              <Font size="45.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER" layoutX="-10.0" layoutY="67.0" prefHeight="52.0" prefWidth="254.0" styleClass="subtitle-label">
+                           <children>
+                              <Label fx:id="title3" alignment="CENTER" prefHeight="27.0" prefWidth="127.0" styleClass="subtitle-label" text="反馈详细信息">
+                                 <font>
+                                    <Font name="Agency FB" size="31.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutY="294.0" prefHeight="38.0" prefWidth="993.0">
+                           <children>
+                              <Label fx:id="title4" text="所在地：" />
+                              <HBox prefHeight="83.0" prefWidth="34.0" />
+                              <ChoiceBox fx:id="provinceChoice" prefHeight="36.0" prefWidth="200.0" />
+                              <HBox prefHeight="38.0" prefWidth="160.0" />
+                              <Label fx:id="title5" text="所在市：" />
+                              <HBox prefHeight="83.0" prefWidth="34.0" />
+                              <ChoiceBox fx:id="cityChoice" prefHeight="36.0" prefWidth="200.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="修改历史记录">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="title101" layoutX="27.0" layoutY="14.0" prefHeight="49.0" prefWidth="141.0" text="历史上传数据：">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="showDetail" layoutX="27.0" layoutY="55.0" prefHeight="242.0" prefWidth="353.0">
+                           <columns>
+                              <TableColumn fx:id="num1" prefWidth="100.0" text="编号" />
+                              <TableColumn fx:id="time1" minWidth="3.0" prefWidth="141.0" text="上传时间" />
+                              <TableColumn fx:id="state" prefWidth="114.0" text="状态" />
+                           </columns>
+                        </TableView>
+                        <TextArea fx:id="infoText" layoutX="410.0" layoutY="146.0" prefHeight="502.0" prefWidth="467.0" promptText="详细信息" />
+                        <Button fx:id="confirmButton" layoutX="883.0" layoutY="617.0" mnemonicParsing="false" text="确认修改" />
+                        <Button fx:id="flushButton" layoutX="883.0" layoutY="564.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="88.0" text="刷新" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

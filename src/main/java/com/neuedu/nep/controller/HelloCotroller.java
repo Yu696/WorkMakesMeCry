@@ -41,7 +41,6 @@ public class HelloCotroller {
     @FXML
     public void loginButtonClicked(){
         handleLogIn();
-
     }
     //加载背景图片，并随容器的大小变化而改变
     @FXML

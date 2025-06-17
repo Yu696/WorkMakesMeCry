@@ -167,7 +167,7 @@ public class LogInController {
         String fxmlPath = null;
         if (type.equals("supervisor")) {
             dataBaseFilePath = "/dataBase/members/supervisor.Json";
-            fxmlPath = "代填入";
+            fxmlPath = "/com/neuedu/nep/supervisorView.fxml";
         }
         if (type.equals("gridder")) {
             dataBaseFilePath = "/dataBase/members/gridder.Json";
@@ -189,10 +189,11 @@ public class LogInController {
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
-            stage.setTitle("用户操作界面");
+            stage.setTitle("用户操作界面:"+member.getName());
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(logInStage);
             stage.show();
+            setDialogStage(stage);
             showAlert("成功","又是美好的打工日~  欢迎"+member.getName()+"员工为本公司添砖加瓦", AlertUtils.AlertType.SUCCESS,stage);
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -52,6 +52,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import static com.neuedu.nep.io.JsonIO.*;
+import static com.neuedu.nep.util.AlertUtils.showAlert;
 import static com.neuedu.nep.util.FindUtil.findItAndGetIt;
 import static com.neuedu.nep.util.FindUtil.getThisPerson;
 
@@ -104,7 +105,7 @@ public class AdministratorController {
     }
 
     @FXML
-    public void setAdministratorStage(Stage stage){
+    public void setDialogStage(Stage stage){
         this.AQIStage=stage;
     }
     @FXML
@@ -298,25 +299,6 @@ public class AdministratorController {
                 return data.toString();
             }
         }
-//        if ("1".equals(reportId)) {
-//            return "AQI反馈数据编号: 001\n" +
-//                    "所在省区域: 广东省\n" +
-//                    "所在市区域: 广州市\n" +
-//                    "详细地址: 天河区XX路XX号\n" +
-//                    "预估AQI等级: 良\n" +
-//                    "反馈日期: 2025-06-10\n" +
-//                    "反馈信息详情: 空气质量良好，无明显污染\n" +
-//                    "反馈者姓名: 张三";
-//        } else if ("2".equals(reportId)) {
-//            return "AQI反馈数据编号: 002\n" +
-//                    "所在省区域: 江苏省\n" +
-//                    "所在市区域: 南京市\n" +
-//                    "详细地址: 鼓楼区XX街XX号\n" +
-//                    "预估AQI等级: 轻度污染\n" +
-//                    "反馈日期: 2025-06-09\n" +
-//                    "反馈信息详情: 空气中有轻微异味\n" +
-//                    "反馈者姓名: 李四";
-//        }
         return null;
     }
 
@@ -338,8 +320,8 @@ public class AdministratorController {
              writer("/dataBase/members/AQIDataBaseCreatedByAdm.json",aqiData);
         }
         selectedData.setGridder(selectedGridder);
+
         writer("/dataBase/members/AQIDataBaseCreatedByAdm.json",selectedData);
-        // 模拟分配报告
         showAlert("成功", "已将报告 " + reportId + " 分配给 " + selectedGridder);
     }
 
@@ -563,6 +545,10 @@ public class AdministratorController {
                 }
             }
         }
+        backButton.setOnAction(e->{
+            Stage stage=new Stage();
+            handleAssign();
+        });
         return 0.0;
     }
 
@@ -579,16 +565,17 @@ public class AdministratorController {
             try {
                 Member member = getThisPerson("/dataBase/members/gridder.json", finalAccount);
                 System.out.println(member.getName() + "已经找到");
-                List<Gridder> gridderList = objectMapper.readValue(JsonIO.class.getResource("/dataBase/members/gridder.json"), objectMapper.getTypeFactory().constructCollectionType(List.class, Gridder.class));
+                List<Gridder> gridderList = read("/dataBase/members/gridder.json",new Gridder());
                 gridderList.removeIf(gridder -> gridder.getAccount().equals(finalAccount));
                 System.out.println(gridderList);
-                File file=new File(JsonIO.class.getResource("/dataBase/members/gridder.Json").toURI());
-                objectMapper.writerWithDefaultPrettyPrinter().writeValue(file,gridderList);
+                writerArray("/dataBase/members/gridder.json",gridderList);
                 System.out.println("已在原部门删除");
                 //这里加和其他子类不一样的属性
                 Supervisor supervisor=new Supervisor(member.getName(),member.getSex(),member.getAccount(),member.getPassWord(),"free");
                 writer("/dataBase/members/supervisor.Json", supervisor);
                 System.out.println("成功加入新部门");
+                Stage stage=(Stage) backButton.getScene().getWindow();
+                AlertUtils.showAlert("成功","部员已更改", AlertUtils.AlertType.SUCCESS,stage);
             } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
             }
@@ -598,20 +585,24 @@ public class AdministratorController {
             try {
                 Member member = getThisPerson("/dataBase/members/supervisor.json", finalAccount);
                 System.out.println(member.getName() + "已经找到");
-                List<Supervisor> supervisorList = objectMapper.readValue(JsonIO.class.getResource("/dataBase/members/supervisor.json"), objectMapper.getTypeFactory().constructCollectionType(List.class, Supervisor.class));
+                List<Supervisor> supervisorList =read("/dataBase/members/supervisor.Json",new Supervisor());
                 supervisorList.removeIf(supervisor -> supervisor.getAccount().equals(finalAccount));
-                File file=new File(JsonIO.class.getResource("/dataBase/members/supervisor.Json").toURI());
-                objectMapper.writerWithDefaultPrettyPrinter().writeValue(file,supervisorList);
+                System.out.println(supervisorList);
+                if(!supervisorList.equals("[]")){
+                    writerArray("/dataBase/members/supervisor.json",supervisorList);
+                }
+                writerArray("/dataBase/members/supervisor.Json",supervisorList);
                 System.out.println("已在原部门删除");
                 //这里加和其他子类不一样的属性
                 Gridder gridder=new Gridder(member.getName(),member.getSex(),member.getAccount(),member.getPassWord(),"free");
                 writer("/dataBase/members/gridder.Json", gridder);
                 System.out.println("成功加入新部门");
+                Stage stage=(Stage) backButton.getScene().getWindow();
+                AlertUtils.showAlert("成功","部员已更改", AlertUtils.AlertType.SUCCESS,stage);
             } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
             }
         }
-        showAlert("成功","已将 "+ name + " 改为 " + newDepartment +" 成员");
     }
 
     private TreeItem<String> findTreeItemByValue(TreeItem<String> root, String value) {
