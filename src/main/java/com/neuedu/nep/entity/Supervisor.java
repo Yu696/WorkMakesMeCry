@@ -6,30 +6,21 @@ public class Supervisor extends Member  {
     @JsonIgnore
     private int maxElementIndexForInsert;
 
-    private String state;
-    public Supervisor(String name, String sex, String account,String passWord, String state) {
-        super(name, sex, account,passWord);
-        this.state = state;
-    }
 
     public Supervisor() {
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
+    public Supervisor(String name, String sex, String account, String passWord,String state) {
+        super(name, sex, account, passWord,state);
     }
 
     @Override
     public String toString() {
         return super.toString() + "Supervisor{" +
-                "state='" + state + '\'' +
                 '}';
     }
-
-
+    public String showInfo(){
+        return this.getName()+" "+this.getSex()+" 账号:"+this.getAccount()+" 现在的任务："+this.getState();
+    }
 }
 

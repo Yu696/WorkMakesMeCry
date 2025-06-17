@@ -87,13 +87,13 @@ public class JsonIO {
     }
 
     //  对数据进行处理来将其拆分成表格能读取的形式
-    public static ObservableList<AQIData> parseJSONData(String dataPath) {
-        ObservableList<AQIData> data = FXCollections.observableArrayList();
-        List<AQIData> aqiDataList = read(dataPath, new AQIData());
-        for (AQIData a : aqiDataList) {
+    public static <T> ObservableList<T> parseJSONData(String dataPath,T t) {
+        ObservableList<T> data = FXCollections.observableArrayList();
+        List<T> list = read(dataPath,t);
+        for (T a : list) {
             System.out.println(a.toString());
         }
-        data.addAll(aqiDataList);
+        data.addAll(list);
         return data;
     }
 
@@ -102,4 +102,5 @@ public class JsonIO {
         List<AQIData> list = objectMapper.readValue(JsonIO.class.getResource("/dataBase/members/AQIDataBaseCreatedBySup.Json"), objectMapper.getTypeFactory().constructCollectionType(List.class, AQIData.class));
         list.removeIf(aqiData1 -> aqiData.getNum().equals(aqiData1.getNum()));
     }
+
 }

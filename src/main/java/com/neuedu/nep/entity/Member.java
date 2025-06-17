@@ -22,20 +22,36 @@ public class Member extends JsonNodeFactory {
     private String sex;
     private String account;
     private String passWord;
-    private String job;
+    private String state;
     public Member() {
     }
 
-    public Member(String account,String passWord){
+    public Member(String name, String sex, String account, String passWord, String state) {
+        this.name=name;
+        this.sex=sex;
+        this.account=account;
+        this.passWord=passWord;
+        this.state=state;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public Member(String account, String passWord){
         this.account=account;
         this.passWord=passWord;
     }
-    public Member(String name, String sex, String account,String passWord) {
+
+    public Member(String name, String sex, String account, String passWord) {
         this.name = name;
         this.sex = sex;
         this.account = account;
         this.passWord=passWord;
-        this.job=null;
     }
 
     public String getName() {
@@ -77,6 +93,7 @@ public class Member extends JsonNodeFactory {
                 ", sex='" + sex + '\'' +
                 ", account='" + account + '\'' +
                 ", passWord='" + passWord + '\'' +
+                ",state='" + state + '\''+
                 '}';
     }
 

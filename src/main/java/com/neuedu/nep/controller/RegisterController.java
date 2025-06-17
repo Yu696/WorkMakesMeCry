@@ -1,5 +1,7 @@
 package com.neuedu.nep.controller;
 
+import com.neuedu.nep.entity.Administrator;
+import com.neuedu.nep.entity.Gridder;
 import com.neuedu.nep.entity.Member;
 import com.neuedu.nep.entity.Supervisor;
 import com.neuedu.nep.io.JsonIO;
@@ -163,11 +165,13 @@ public class RegisterController {
             case "administrator":
                 registerUser = registeredOrNotSim("/dataBase/members/administrator.Json", account);
                 ownFilePath="/dataBase/members/administrator.Json";
+                member=new Administrator(name,sex,account,passWord);
                 break;
                 
             case "gridder": 
                 registerUser = registeredOrNotSim("/dataBase/members/gridder.Json", account);
                 ownFilePath="/dataBase/members/gridder.Json";
+                member=new Gridder(name,sex,account,passWord,"free");
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + choice);

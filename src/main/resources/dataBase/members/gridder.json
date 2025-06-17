@@ -4,6 +4,7 @@
     "name": "小鸡鸡",
     "sex": "男",
     "account": "250",
-    "passWord": "123123"
+    "passWord": "123123",
+    "state": "free"
   }
 ]

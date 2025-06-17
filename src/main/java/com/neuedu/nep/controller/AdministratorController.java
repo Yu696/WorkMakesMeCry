@@ -4,12 +4,19 @@ package com.neuedu.nep.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neuedu.nep.entity.AQIData;
 import com.neuedu.nep.entity.Gridder;
+import com.neuedu.nep.entity.Member;
+import com.neuedu.nep.entity.Supervisor;
 import com.neuedu.nep.io.JsonIO;
 import com.neuedu.nep.util.AlertUtils;
+import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
 
+
+import javafx.geometry.Orientation;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.*;
@@ -20,27 +27,48 @@ import javafx.scene.control.Alert.AlertType;
 
 
 import java.io.File;
-import java.io.FileWriter;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Random;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 
 
+import javafx.scene.image.Image;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import static com.neuedu.nep.io.JsonIO.*;
 import static com.neuedu.nep.util.FindUtil.findItAndGetIt;
+import static com.neuedu.nep.util.FindUtil.getThisPerson;
 
 
 public class AdministratorController {
+
+    @FXML
+    private Label wordsText;
+
+    @FXML
+    public AnchorPane admPaneRoot;
+
+    @FXML
+    private TreeView<String> departmentText;
+
     @FXML
     private Button backButton;
-
 
     @FXML
     private Button turnBackButton;
@@ -55,31 +83,11 @@ public class AdministratorController {
     private Button queryButton;
 
     @FXML
-    private TableColumn<ReportDetailItem,String> numColumn;
-
-    @FXML
-    private TableColumn<ReportDetailItem,String> provinceColumn;
+    private Label timeText;
 
     @FXML
     private TableView<AQIData> reportDetailTableView;
 
-    @FXML
-    private TableColumn<AQIData,String> AQIColumn;
-
-    @FXML
-    private TableColumn<AQIData,String> dataColumn;
-
-    @FXML
-    private TableColumn<AQIData,String> infoColumn;
-
-    @FXML
-    private TableColumn<AQIData,String> nameColumn;
-
-    @FXML
-    private TableColumn<AQIData,String> cityColumn;
-
-    @FXML
-    private TableColumn<AQIData,String> detailedAddress;
 
     @FXML
     private ComboBox<String> GridderComboBox;
@@ -101,6 +109,47 @@ public class AdministratorController {
     }
     @FXML
     private  void initialize(){
+       //设置实时时间
+        timeText.setFont(new Font("Arial",36));
+        AnimationTimer animationTimer=new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                updateTime(timeText);
+            }
+        };
+        animationTimer.start();
+
+
+        //鼓励标语
+        String[] strings={"键盘敲得响，打工人的梦想在闪光。","周一综合征？不存在的！打工人已上线。","工作使我充实，钱包却日渐消瘦。","到点收工，快乐起飞~明天继续搬砖。","打工人的日常：不是在加班，就是在去加班的路上。","生活不易，且行且珍惜，尤其珍惜发工资那天。"};
+        Random random=new Random();
+        wordsText.setText(strings[random.nextInt(6)]);
+
+        //员工树
+        ObjectMapper objectMapper =new ObjectMapper();
+        TreeItem<String> rootTree=new TreeItem<>("公司员工结构");
+        TreeItem<String> supervisorTree=new TreeItem<>("监督员部");
+        TreeItem<String> gridderTree=new TreeItem<>("网格员部");
+        rootTree.getChildren().addAll(supervisorTree,gridderTree);
+        List<Supervisor> supervisorShowList=read("/dataBase/members/supervisor.Json",new Supervisor());
+        for (Supervisor a : supervisorShowList){
+            supervisorTree.getChildren().add(new TreeItem<>(a.showInfo()));
+
+        }
+        List<Gridder> gridderShowList=read("/dataBase/members/gridder.Json",new Gridder());
+        for (Gridder a : gridderShowList){
+            gridderTree.getChildren().add(new TreeItem<>(a.showInfo()));
+        }
+        departmentText.setRoot(rootTree);
+        departmentText.setShowRoot(true);
+        supervisorTree.setExpanded(true);
+        gridderTree.setExpanded(true);
+        rootTree.setExpanded(true);
+        setupDragAndDrop(departmentText);
+
+
+
+        //表格
         TableColumn<AQIData, String> numColumn = new TableColumn<>("编号");
         numColumn.setCellValueFactory(new PropertyValueFactory<>("num"));
 
@@ -131,7 +180,7 @@ public class AdministratorController {
                 addressColumn, levelColumn, dateColumn,
                 infoColumn, publisherColumn
         );
-        ObservableList<AQIData> aqiDataList = parseJSONData("/dataBase/members/AQIDataBaseCreatedBySup.Json");
+        ObservableList<AQIData> aqiDataList = parseJSONData("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
 
         // 将数据设置到TableView
         reportDetailTableView.setItems(aqiDataList);
@@ -142,7 +191,7 @@ public class AdministratorController {
         }));
         //初始化下拉框选项
         List<Gridder> list=read("/dataBase/members/gridder.json",new Gridder());
-        List<String>gridderList= new ArrayList<>();
+        List<String> gridderList= new ArrayList<>();
         for(Gridder a : list){
             gridderList.add(a.getName());
             System.out.println("已添加网格员"+a.getName()+"进入菜单");
@@ -180,8 +229,17 @@ public class AdministratorController {
 
 
     }
+
+    private void updateTime(Label timeText){
+        LocalDateTime localDateTime=LocalDateTime.now();
+        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd  HH:mm:ss");
+        String formatTime=localDateTime.format(formatter);
+        timeText.setText("现在是 "+ formatTime+ " ");
+    }
+
+
     private void handleBack(){
-        ObservableList<AQIData> aqiDataList = parseJSONData("/dataBase/members/AQIDataBaseCreatedBySup.Json");
+        ObservableList<AQIData> aqiDataList = parseJSONData("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
         reportDetailTableView.setItems(aqiDataList);
     }
 
@@ -210,7 +268,7 @@ public class AdministratorController {
             showAlert("错误", "请输入AQI报告ID");
             return;
         }
-        ObservableList<AQIData> list=parseJSONData("/dataBase/members/AQIDataBaseCreatedBySup.Json");
+        ObservableList<AQIData> list=parseJSONData("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
         ObservableList<AQIData> showList = FXCollections.observableArrayList();
         for(AQIData a : list){
             if(a.getNum().equals(aqiReportId)){
@@ -234,7 +292,6 @@ public class AdministratorController {
 //    }
 
     private String getReportDetailById(String reportId) {
-        // 这里模拟数据，实际应从数据库或 API 获取
         List<AQIData> list=read("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
         for(AQIData data : list){
             if(data.getNum().equals(reportId)){
@@ -317,5 +374,258 @@ public class AdministratorController {
         }
     }
 
+    // 设置拖拽功能
+    private void setupDragAndDrop(TreeView<String> tree) {
+        // 1. 设置单元格工厂
+        tree.setCellFactory(tv -> new TreeCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(item);
+                    // 只为员工节点设置图标
+                    if (getTreeItem().getParent() != null &&
+                            getTreeItem().getParent().getParent() != null) {
+                        setGraphic(createEmployeeIcon());
+                    }
+                }
+            }
 
+            private Circle createEmployeeIcon() {
+                Circle icon = new Circle(8);
+                icon.setFill(Color.web("#3498db"));
+                icon.setStroke(Color.web("#2980b9"));
+                return icon;
+            }
+
+            // 2. 拖拽开始事件
+            {
+                setOnDragDetected(event -> {
+                    if (getItem() == null || getTreeItem() == null ||
+                            getTreeItem().getParent() == null ||
+                            getTreeItem().getParent().getParent() == null) {
+                        return;
+                    }
+
+                    // 创建拖拽板
+                    Dragboard db = startDragAndDrop(TransferMode.MOVE);
+
+                    // 设置拖拽内容
+                    ClipboardContent content = new ClipboardContent();
+                    content.putString(getItem());
+                    db.setContent(content);
+
+                    // 设置拖拽视图（可选）
+                    db.setDragView(snapshot(null, null));
+
+                    event.consume();
+                });
+
+                // 3. 拖拽完成事件
+                setOnDragDone(event -> {
+                    if (event.getTransferMode() == TransferMode.MOVE) {
+                        System.out.println("拖拽完成");
+                    }
+                });
+            }
+        });
+
+        tree.setOnDragOver(event -> {
+            if (event.getDragboard().hasString()) {
+                // 使用鼠标位置获取目标项
+                TreeItem<String> targetItem = getTreeItemAtPosition(tree, event.getX(), event.getY());
+
+                // 调试信息
+                System.out.println("拖拽位置: " + event.getX() + "," + event.getY());
+                System.out.println("目标节点: " + (targetItem != null ? targetItem.getValue() : "null"));
+
+                // 允许拖拽到部门节点
+                if (targetItem != null &&
+                        (targetItem.getValue().equals("监督员部") ||
+                                targetItem.getValue().equals("网格员部"))) {
+
+                    // 接受移动操作
+                    event.acceptTransferModes(TransferMode.MOVE);
+                    event.consume();
+                    return;
+                }
+            }
+            event.consume();
+        });
+
+        // 拖拽放置事件 - 修复版
+        tree.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+
+            if (db.hasString()) {
+                // 使用鼠标位置获取目标项
+                TreeItem<String> targetItem = getTreeItemAtPosition(tree, event.getX(), event.getY());
+
+                if (targetItem != null &&
+                        (targetItem.getValue().equals("监督员部") ||
+                                targetItem.getValue().equals("网格员部"))) {
+
+                    String draggedEmployee = db.getString();
+                    TreeItem<String> draggedItem = findTreeItemByValue(tree.getRoot(), draggedEmployee);
+
+                    if (draggedItem != null) {
+                        // 从原部门移除
+                        draggedItem.getParent().getChildren().remove(draggedItem);
+
+                        // 添加到新部门
+                        targetItem.getChildren().add(draggedItem);
+
+                        // 展开目标部门
+                        targetItem.setExpanded(true);
+
+                        try {
+                            // 更新员工数据
+                            updateEmployeeDepartment(draggedEmployee, targetItem.getValue());
+                            success = true;
+
+                            // 成功反馈
+                            System.out.println("成功将 " + draggedEmployee + " 移动到 " + targetItem.getValue());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            event.setDropCompleted(success);
+            event.consume();
+        });
+
+        // 视觉反馈
+        tree.setOnDragEntered(event -> {
+            TreeItem<String> targetItem = getTreeItemAtPosition(tree, event.getX(), event.getY());
+            if (targetItem != null && isValidTarget(targetItem)) {
+                tree.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+            }
+        });
+
+        tree.setOnDragExited(event -> {
+            tree.setStyle("");
+        });
+    }
+
+    // 检查是否是有效的目标部门
+    private boolean isValidTarget(TreeItem<String> item) {
+        return item != null &&
+                ("监督员部".equals(item.getValue()) ||
+                        "网格员部".equals(item.getValue()));
+    }
+
+    // 根据坐标获取树节点
+    private TreeItem<String> getTreeItemAtPosition(TreeView<String> tree, double x, double y) {
+        // 确保 TreeView 已经布局
+        tree.applyCss();
+        tree.layout();
+
+        // 获取第一个可见项作为参考
+        if (tree.getExpandedItemCount() == 0) return null;
+
+        // 获取实际行高（从第一个单元格）
+        double rowHeight = 24.0; // 默认值
+        TreeCell<?> sampleCell = (TreeCell<?>) tree.lookup(".tree-cell");
+        if (sampleCell != null && sampleCell.getHeight() > 0) {
+            rowHeight = sampleCell.getHeight();
+        }
+
+        // 获取滚动位置
+        double scrollY = getTreeViewScrollY(tree);
+
+        // 计算总偏移量
+        double totalY = y + scrollY;
+
+        // 计算行索引
+        int rowIndex = (int) (totalY / rowHeight);
+
+        // 确保行索引在有效范围内
+        if (rowIndex >= 0 && rowIndex < tree.getExpandedItemCount()) {
+            return tree.getTreeItem(rowIndex);
+        }
+
+        return null;
+    }
+
+    // 获取 TreeView 的垂直滚动位置
+    private double getTreeViewScrollY(TreeView<?> treeView) {
+        // 查找垂直滚动条
+        for (Node node : treeView.lookupAll(".scroll-bar")) {
+            if (node instanceof ScrollBar) {
+                ScrollBar scrollBar = (ScrollBar) node;
+                if (scrollBar.getOrientation() == Orientation.VERTICAL) {
+                    return scrollBar.getValue();
+                }
+            }
+        }
+        return 0.0;
+    }
+
+
+
+    private void updateEmployeeDepartment(String draggedEmployee, String newDepartment) throws IOException {
+        String account=draggedEmployee.split(" ")[2];
+        String name=draggedEmployee.split( " ")[0];
+        System.out.println(account);
+        String finalAccount=account.split(":")[1];
+        System.out.println(finalAccount);
+        ObjectMapper objectMapper=new ObjectMapper();
+        if(newDepartment.equals("监督员部")){
+            try {
+                Member member = getThisPerson("/dataBase/members/gridder.json", finalAccount);
+                System.out.println(member.getName() + "已经找到");
+                List<Gridder> gridderList = objectMapper.readValue(JsonIO.class.getResource("/dataBase/members/gridder.json"), objectMapper.getTypeFactory().constructCollectionType(List.class, Gridder.class));
+                gridderList.removeIf(gridder -> gridder.getAccount().equals(finalAccount));
+                System.out.println(gridderList);
+                File file=new File(JsonIO.class.getResource("/dataBase/members/gridder.Json").toURI());
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(file,gridderList);
+                System.out.println("已在原部门删除");
+                //这里加和其他子类不一样的属性
+                Supervisor supervisor=new Supervisor(member.getName(),member.getSex(),member.getAccount(),member.getPassWord(),"free");
+                writer("/dataBase/members/supervisor.Json", supervisor);
+                System.out.println("成功加入新部门");
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        if(newDepartment.equals("网格员部")){
+            try {
+                Member member = getThisPerson("/dataBase/members/supervisor.json", finalAccount);
+                System.out.println(member.getName() + "已经找到");
+                List<Supervisor> supervisorList = objectMapper.readValue(JsonIO.class.getResource("/dataBase/members/supervisor.json"), objectMapper.getTypeFactory().constructCollectionType(List.class, Supervisor.class));
+                supervisorList.removeIf(supervisor -> supervisor.getAccount().equals(finalAccount));
+                File file=new File(JsonIO.class.getResource("/dataBase/members/supervisor.Json").toURI());
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(file,supervisorList);
+                System.out.println("已在原部门删除");
+                //这里加和其他子类不一样的属性
+                Gridder gridder=new Gridder(member.getName(),member.getSex(),member.getAccount(),member.getPassWord(),"free");
+                writer("/dataBase/members/gridder.Json", gridder);
+                System.out.println("成功加入新部门");
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        showAlert("成功","已将 "+ name + " 改为 " + newDepartment +" 成员");
+    }
+
+    private TreeItem<String> findTreeItemByValue(TreeItem<String> root, String value) {
+        if (root.getValue().equals(value)) {
+            return root;
+        }
+
+        for (TreeItem<String> child : root.getChildren()) {
+            TreeItem<String> found = findTreeItemByValue(child, value);
+            if (found != null) {
+                return found;
+            }
+        }
+
+        return null;
+    }
 }
