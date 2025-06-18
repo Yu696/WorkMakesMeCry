@@ -1,11 +1,13 @@
 package com.neuedu.nep.controller;
 
 import com.neuedu.nep.entity.AQIData;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -54,21 +56,29 @@ public class GridderController {
         setupTable();
         setupTableSelectionListener();
         setupConcentrationListeners();
-        loadAssignedData();
         // 设置当前登录的网格员
-        String currentGridder = "当前登录的网格员姓名"; // 这里需要替换为实际获取当前登录网格员的方法
-        currentGridderLabel.setText(currentGridder);
+        Platform.runLater(() -> {
+            // 现在组件已附加到场景
+            Stage stage=(Stage) dataIdField.getScene().getWindow();
+            String nameLine=stage.getTitle();
+            String name=nameLine.split(":")[1];
+            currentGridderLabel.setText(name);
+            loadAssignedData();
+        });
+
 
     }
 
     private void loadAssignedData() {
         // 从数据库加载分配给当前网格员的数据
         // 这里假设有一个方法可以获取当前登录的网格员ID
-        String currentGridderId = "当前网格员ID"; // 需要替换为实际获取方法
+        Stage stage=(Stage) dataIdField.getScene().getWindow();
+        String nameLine=stage.getTitle();
+        String name=nameLine.split(":")[1];
         ObservableList<AQIData> allData = parseJSONData("/dataBase/members/AQIDataBaseCreatedByAdm.json",new AQIData());
 
         for (AQIData data : allData) {
-            if (currentGridderId.equals(data.getGridder()) && !"已处理".equals(data.getState())) {
+            if (name.equals(data.getGridder()) && !"已处理".equals(data.getState())) {
                 dataList.add(data);
             }
         }
@@ -129,11 +139,11 @@ public class GridderController {
         dataIdField.setText(data.getNum());
 
         // 显示指派的网格员
-        if (data.getGridder() != null) {
-            assignedGridderLabel.setText(data.getGridder());
-        } else {
-            assignedGridderLabel.setText("未分配");
-        }
+//        if (data.getGridder() != null) {
+//            assignedGridderLabel.setText(data.getGridder());
+//        } else {
+//            assignedGridderLabel.setText("未分配");
+//        }
         // 如果已有实测数据，则填充表单
         if (data.getSo2() != null) {
             so2Field.setText(String.valueOf(data.getSo2()));
@@ -308,7 +318,7 @@ public class GridderController {
             selectedData.setState("已处理");
 
             // 保存到数据库
-            writer("/dataBase/members/AQIDataProcessed.json", selectedData);
+            writer("/dataBase/members/AQIDataBaseCreatedByGri.Json", selectedData);
 
             // 更新表格显示
             dataTableView.refresh();

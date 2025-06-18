@@ -8,7 +8,6 @@ import com.neuedu.nep.entity.Member;
 import com.neuedu.nep.entity.Supervisor;
 import com.neuedu.nep.io.JsonIO;
 import com.neuedu.nep.util.AlertUtils;
-import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -52,7 +51,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import static com.neuedu.nep.io.JsonIO.*;
-import static com.neuedu.nep.util.AlertUtils.showAlert;
 import static com.neuedu.nep.util.FindUtil.findItAndGetIt;
 import static com.neuedu.nep.util.FindUtil.getThisPerson;
 

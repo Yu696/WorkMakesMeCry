@@ -428,6 +428,7 @@ public class SupervisorController implements Initializable {
         showDetail.setItems(observableData);
         showDetail.getSelectionModel().selectedItemProperty().addListener((observableValue, aqiData, t1) -> {
             if(t1!=null){
+                infoText.setStyle("-fx-font-size: 16pt;");
                 infoText.setText(t1.toString());
                 confirmButton.setOnAction(e->{
                     String result=infoText.getText();
