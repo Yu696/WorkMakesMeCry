@@ -208,7 +208,6 @@ public class AdministratorController {
         List<String> gridderList= new ArrayList<>();
         for(Gridder a : list){
             gridderList.add(a.getName());
-            System.out.println("已添加网格员"+a.getName()+"进入菜单");
         }
         GridderComboBox.getItems().addAll(gridderList);
         //给查询按钮加一个事件监听器
@@ -216,10 +215,15 @@ public class AdministratorController {
         //给分配按钮加一个事件监听器
         assignButton.setOnAction(event ->handleAssign());
         turnBackButton.setOnAction(e-> {
-            try {
-                handleDismiss();
-            } catch (IOException | URISyntaxException ex) {
-                throw new RuntimeException(ex);
+            if(reportDetailTableView.getSelectionModel().isEmpty()){
+                showAlert("错误","请先选择报告");
+            }
+           else {
+                try {
+                    handleDismiss();
+                } catch (IOException | URISyntaxException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         backButton.setOnAction(e->handleBack());
@@ -289,7 +293,6 @@ public class AdministratorController {
 
     private void handleQuery() {
         String aqiReportId = aqiReportIdTextField.getText();
-//        System.out.println(aqiReportId);
         if (aqiReportId.isEmpty()) {
             showAlert("错误", "请输入AQI报告ID");
             return;
@@ -341,7 +344,6 @@ public class AdministratorController {
                 aqiData.setGridder(selectedGridder);
             }
         });
-        System.out.println(list);
         try {
             writerArray("/dataBase/members/AQIDataBaseCreatedBySup.Json",list);
         } catch (IOException e) {
@@ -446,7 +448,6 @@ public class AdministratorController {
                 // 3. 拖拽完成事件
                 setOnDragDone(event -> {
                     if (event.getTransferMode() == TransferMode.MOVE) {
-                        System.out.println("拖拽完成");
                     }
                 });
             }
@@ -456,10 +457,6 @@ public class AdministratorController {
             if (event.getDragboard().hasString()) {
                 // 使用鼠标位置获取目标项
                 TreeItem<String> targetItem = getTreeItemAtPosition(tree, event.getX(), event.getY());
-
-                // 调试信息
-                System.out.println("拖拽位置: " + event.getX() + "," + event.getY());
-                System.out.println("目标节点: " + (targetItem != null ? targetItem.getValue() : "null"));
 
                 // 允许拖拽到部门节点
                 if (targetItem != null &&
@@ -506,8 +503,6 @@ public class AdministratorController {
                             updateEmployeeDepartment(draggedEmployee, targetItem.getValue());
                             success = true;
 
-                            // 成功反馈
-                            System.out.println("成功将 " + draggedEmployee + " 移动到 " + targetItem.getValue());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -594,23 +589,17 @@ public class AdministratorController {
     private void updateEmployeeDepartment(String draggedEmployee, String newDepartment) throws IOException {
         String account=draggedEmployee.split(" ")[2];
         String name=draggedEmployee.split( " ")[0];
-        System.out.println(account);
         String finalAccount=account.split(":")[1];
-        System.out.println(finalAccount);
         ObjectMapper objectMapper=new ObjectMapper();
         if(newDepartment.equals("监督员部")){
             try {
                 Member member = getThisPerson("/dataBase/members/gridder.json", finalAccount);
-                System.out.println(member.getName() + "已经找到");
                 List<Gridder> gridderList = read("/dataBase/members/gridder.json",new Gridder());
                 gridderList.removeIf(gridder -> gridder.getAccount().equals(finalAccount));
-                System.out.println(gridderList);
                 writerArray("/dataBase/members/gridder.json",gridderList);
-                System.out.println("已在原部门删除");
                 //这里加和其他子类不一样的属性
                 Supervisor supervisor=new Supervisor(member.getName(),member.getSex(),member.getAccount(),member.getPassWord(),"free");
                 writer("/dataBase/members/supervisor.Json", supervisor);
-                System.out.println("成功加入新部门");
                 Stage stage=(Stage) backButton.getScene().getWindow();
                 AlertUtils.showAlert("成功","部员已更改", AlertUtils.AlertType.SUCCESS,stage);
             } catch (URISyntaxException e) {
@@ -621,19 +610,15 @@ public class AdministratorController {
         if(newDepartment.equals("网格员部")){
             try {
                 Member member = getThisPerson("/dataBase/members/supervisor.json", finalAccount);
-                System.out.println(member.getName() + "已经找到");
                 List<Supervisor> supervisorList =read("/dataBase/members/supervisor.Json",new Supervisor());
                 supervisorList.removeIf(supervisor -> supervisor.getAccount().equals(finalAccount));
-                System.out.println(supervisorList);
                 if(!supervisorList.equals("[]")){
                     writerArray("/dataBase/members/supervisor.json",supervisorList);
                 }
                 writerArray("/dataBase/members/supervisor.Json",supervisorList);
-                System.out.println("已在原部门删除");
                 //这里加和其他子类不一样的属性
                 Gridder gridder=new Gridder(member.getName(),member.getSex(),member.getAccount(),member.getPassWord(),"free");
                 writer("/dataBase/members/gridder.Json", gridder);
-                System.out.println("成功加入新部门");
                 Stage stage=(Stage) backButton.getScene().getWindow();
                 AlertUtils.showAlert("成功","部员已更改", AlertUtils.AlertType.SUCCESS,stage);
             } catch (URISyntaxException e) {

@@ -138,12 +138,7 @@ public class GridderController {
     private void updateFormWithSelectedData(AQIData data) {
         dataIdField.setText(data.getNum());
 
-        // 显示指派的网格员
-//        if (data.getGridder() != null) {
-//            assignedGridderLabel.setText(data.getGridder());
-//        } else {
-//            assignedGridderLabel.setText("未分配");
-//        }
+
         // 如果已有实测数据，则填充表单
         if (data.getSo2() != null) {
             so2Field.setText(String.valueOf(data.getSo2()));

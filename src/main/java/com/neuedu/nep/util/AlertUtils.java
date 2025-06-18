@@ -39,7 +39,6 @@ public class AlertUtils {
         Stage alertStage = new Stage();
         alertStage.initStyle(StageStyle.TRANSPARENT);
         alertStage.setAlwaysOnTop(true);
-        System.out.println("成功");
         // 如果有主窗口，将提醒窗口定位在主窗口上方
         if (ownerStage != null && ownerStage.getScene() != null) {
             Scene ownerScene = ownerStage.getScene();

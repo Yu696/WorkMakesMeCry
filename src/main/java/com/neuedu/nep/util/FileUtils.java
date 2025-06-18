@@ -21,16 +21,13 @@ public class FileUtils {
                 return a;
             }
         }
-        System.out.println("没这个人--来自getthisperson");
         return null;
     }
 
     public static boolean registeredOrNot(String filePath, String aqiDatepublisher) {
         AQIData aqiData = new AQIData("1","广东省","广州市","天河区XX路XX号","一级","2025/6/11","空气质量良好，无明显污染","张三");
         List<AQIData> list = read(filePath, aqiData);
-        System.out.println("名单读取成功");
         for (AQIData a : list) {
-            System.out.println(a.toString());
             if (a.getPublisher().equals(aqiDatepublisher)) {
 
                     return true;
@@ -47,7 +44,6 @@ public class FileUtils {
                 return i;
             }
         }
-        System.out.println("未找到--来自finditandfetit");
         return null;
     }
 
@@ -61,7 +57,6 @@ public class FileUtils {
     public static int getMaxIdFromJson() {
         File file = new File(JSON_FILE);
         if (!file.exists() || file.length() == 0) {
-            System.out.println("文件不存在或为空，最大序号返回 0");
             return 0;
         }
         try {
@@ -73,11 +68,9 @@ public class FileUtils {
                     maxId = id;
                 }
             }
-            System.out.println("从文件中读取到的最大序号为: " + maxId);
             return maxId;
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("读取文件出错，最大序号返回 0");
             return 0;
         }
     }

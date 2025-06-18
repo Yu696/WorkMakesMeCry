@@ -432,7 +432,6 @@ public class SupervisorController implements Initializable {
                 infoText.setText(t1.toString());
                 confirmButton.setOnAction(e->{
                     String result=infoText.getText();
-                    System.out.println(result);
                     String numLine=result.split("\n")[0];
                     String num=numLine.split(":")[1];
                     String provinceLine=result.split("\n")[1];
@@ -457,7 +456,6 @@ public class SupervisorController implements Initializable {
                     List<AQIData> list=read("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
                     list.removeIf(aqiData1 -> aqiData1.getNum().equals(t1.getNum()));
                     list.add(new AQIData(num,province,city,address,AQILevel,date,info,publisher,null,"未检阅"));
-                    System.out.println(list);
                     ObjectMapper objectMapper=new ObjectMapper();
                     try {
                         File file=new File(JsonIO.class.getResource("/dataBase/members/AQIDataBaseCreatedBySup.Json").toURI());
@@ -476,7 +474,6 @@ public class SupervisorController implements Initializable {
                             throw new RuntimeException(ex);
                         }
                         showAlert("成功","成功修改了此报告，正在接受监督员的审核", AlertUtils.AlertType.SUCCESS,stage);
-                        System.out.println("成功改变数据");
                     } catch (URISyntaxException | IOException ex) {
                         throw new RuntimeException(ex);
                     }

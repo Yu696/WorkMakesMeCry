@@ -19,16 +19,13 @@ public class FindUtil {
                 return a;
             }
         }
-        System.out.println("没这个人--来自getthisperson");
         return null;
     }
 
     public static boolean registeredOrNot(String filePath, String memberAccount,String passWord) {
         Member member=new Member("余润东","男","111","123");
         List<Member> memberList=read(filePath,member);
-        System.out.println("名单读取成功");
         for(Member a : memberList){
-            System.out.println(a.toString());
             if(a.getAccount().equals(memberAccount) ){
                 if(a.getPassWord().equals(passWord)) {
                     return true;
@@ -46,7 +43,6 @@ public class FindUtil {
                 return i;
             }
         }
-        System.out.println("未找到--来自finditandfetit");
         return null;
     }
 }

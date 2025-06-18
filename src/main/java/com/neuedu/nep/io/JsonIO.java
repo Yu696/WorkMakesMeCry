@@ -119,9 +119,6 @@ public class JsonIO {
     public static <T> ObservableList<T> parseJSONData(String dataPath,T t) {
         ObservableList<T> data = FXCollections.observableArrayList();
         List<T> list = read(dataPath,t);
-        for (T a : list) {
-            System.out.println(a.toString());
-        }
         data.addAll(list);
         return data;
     }

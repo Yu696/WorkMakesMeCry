@@ -109,17 +109,13 @@ public class LogInController {
         String passWord = loginPassWordText.getText().trim();
         String account = loginAccountNumberText.getText().trim();
         if(passWord.isEmpty() || account.isEmpty()){
-            System.out.println("输入为空");
             showAlert("错误","请输入完整信息", AlertUtils.AlertType.ERROR,logInStage);
         }
         Member member=new Member(account,passWord);
-        System.out.println("函数进入成功");
         switch (stuffType){
             case "supervisor":
                 if(registeredOrNot("/dataBase/members/supervisor.Json",account,passWord)) {
-                    System.out.println("在supervisor中找到了！");
                     Member supervisor = getThisPerson("/dataBase/members/supervisor.Json", account);
-                    System.out.println("此人已在我手中");
                     handleUserView(supervisor,"supervisor");
                 }
                 else{
@@ -131,9 +127,7 @@ public class LogInController {
 
             case "administrator":
                 if(registeredOrNot("/dataBase/members/administrator.json",account,passWord)) {
-                    System.out.println("在administrator中找到了");
                     Member administrator = getThisPerson("/dataBase/members/administrator.Json", account);
-                    System.out.println("此人已在我手中");
                     handleUserView(administrator,"administrator");
                 }else{
                     showAlert("错误","登录信息有误，请重试密码或检查是否注册", AlertUtils.AlertType.ERROR,
@@ -146,9 +140,7 @@ public class LogInController {
 
             case "gridder":
                 if(registeredOrNot("/dataBase/members/gridder.json",account,passWord)) {
-                    System.out.println("在gridder中找到了");
                     Member gridder= getThisPerson("/dataBase/members/gridder.Json", account);
-                    System.out.println("此人已在我手中");
                     handleUserView(gridder,"gridder");
                 }else{
                     showAlert("错误","登录信息有误，请重试密码或检查是否注册", AlertUtils.AlertType.ERROR,
@@ -180,8 +172,6 @@ public class LogInController {
         FXMLLoader fxmlLoader = null;
         if (fxmlPath != null) {
             fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
-        } else {
-            System.out.println("文件地址出错");
         }
         Parent root;
         try {

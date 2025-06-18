@@ -68,9 +68,6 @@ public class RegisterController {
     public void confirmButtonClicked(){
        if(registerStage!=null){
         readingRegister();}
-       else {
-           System.out.println("系统出错，请退出重试！");
-       }
     }
 
     @FXML
@@ -123,7 +120,6 @@ public class RegisterController {
         //将不同的工种存入不同的文件，实现分别管理
         MenuItem menuItem=memberTypeChoser.getValue();
         String choice=menuItem.getText();
-        System.out.println(choice);
         String name = registerNameText.getText().trim();
         String sex = registerSexText.getText().trim();
         String account = registerAccountNumberText.getText().trim();
@@ -193,9 +189,7 @@ public class RegisterController {
     public static boolean registeredOrNotSim(String filePath, String memberAccount) {
         Member member=new Member("余润东","男","111","123");
         List<Member> memberList=read(filePath,member);
-        System.out.println("名单读取成功");
         for(Member a : memberList){
-            System.out.println(a.toString());
             if(a.getAccount().equals(memberAccount) ){
                 return true;
             }
