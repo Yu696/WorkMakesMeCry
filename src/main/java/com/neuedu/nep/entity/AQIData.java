@@ -42,7 +42,20 @@ public class AQIData {
         this.detailedInfo = detailedInfo;
         this.publisher = publisher;
         this.gridder=null;
-        this.state=null;
+        this.state="未检阅";
+    }
+
+    public AQIData(String num, String province, String city, String detailedAddress, String AQILevel, String date, String detailedInfo, String publisher, String gridder, String state) {
+        this.num = num;
+        this.province = province;
+        this.city = city;
+        this.detailedAddress = detailedAddress;
+        this.AQILevel = AQILevel;
+        this.date = date;
+        this.detailedInfo = detailedInfo;
+        this.publisher = publisher;
+        this.gridder = gridder;
+        this.state = state;
     }
 
     public AQIData() {
@@ -123,6 +136,7 @@ public class AQIData {
     public String getPublisher() {
         return publisher;
     }
+
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;

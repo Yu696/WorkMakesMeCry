@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -7,13 +9,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="954.0" stylesheets="@aqi.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.AdministratorController">
+<AnchorPane fx:id="admPaneRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="954.0" stylesheets="@aqi.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.AdministratorController">
    <children>
       <TabPane prefHeight="683.0" prefWidth="954.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
-            <Tab text="Untitled Tab 1">
+            <Tab text="人员管理">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="609.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="609.0">
+                     <children>
+                        <TreeView fx:id="departmentText" editable="true" layoutX="14.0" layoutY="62.0" prefHeight="560.0" prefWidth="625.0" styleClass="tree-item" />
+                        <ImageView fitHeight="194.0" fitWidth="200.0" layoutX="680.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../image/xiaoxin.jpg" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="wordsText" layoutX="680.0" layoutY="233.0" prefHeight="155.0" prefWidth="197.0" textAlignment="JUSTIFY" wrapText="true" />
+                        <Label fx:id="timeText" alignment="CENTER" layoutX="91.0" layoutY="25.0" prefHeight="29.0" prefWidth="540.0" textAlignment="CENTER" />
+                        <Button fx:id="flushButton" layoutX="639.0" layoutY="585.0" mnemonicParsing="false" text="刷新" />
+                     </children></AnchorPane>
                </content>
             </Tab>
             <Tab fx:id="dataDistrabuteView" text="数据指派界面">
@@ -32,6 +45,8 @@
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
                                     <Button fx:id="queryButton" prefHeight="31.0" prefWidth="72.0" text="查询" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" />
+                                    <Button fx:id="backButton" mnemonicParsing="false" text="刷新" />
                                  </children>
                               </HBox>
                            </children>

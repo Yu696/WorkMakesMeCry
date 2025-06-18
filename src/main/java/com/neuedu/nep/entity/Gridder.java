@@ -8,15 +8,17 @@ public class Gridder extends Member  {
     public Gridder() {
     }
 
-    public Gridder(String name, String sex, String account, String passWord) {
-        super(name, sex, account, passWord);
+    public Gridder(String name, String sex, String account, String passWord,String state) {
+        super(name, sex, account, passWord,state);
     }
 
     @Override
     public String toString() {
-        return "Gridder{}";
+        return super.toString() + "Gridder{" + '}';
     }
 
-
+    public String showInfo(){
+        return this.getName()+" "+this.getSex()+" 账号:"+this.getAccount()+" 现在的任务："+this.getState();
+    }
 
 }

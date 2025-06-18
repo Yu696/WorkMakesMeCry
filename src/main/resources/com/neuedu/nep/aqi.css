@@ -191,3 +191,8 @@
 .form-container {
     -fx-spacing: 10px;
 }
+/* 树视图整体样式 */
+.tree-view {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}

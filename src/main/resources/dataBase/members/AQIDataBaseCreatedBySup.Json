@@ -7,8 +7,9 @@
     "AQILevel": "良",
     "date":"2025-06-10",
     "detailedInfo": "空气质量良好，无明显污染,adjajdajdjaskdjladjlasjdlasdasdasdasdasdadada",
-    "publisher": "张三",
-    "gridder": "null"
+    "publisher": "余润东",
+    "gridder": "null",
+    "state": "未检阅"
   },
   {
     "num": "002",
@@ -18,8 +19,9 @@
     "AQILevel": "轻度污染",
     "date": "2025-06-09",
     "detailedInfo": "空气中有轻微异味",
-    "publisher": "李四",
-    "gridder": "null"
+    "publisher": "余润东",
+    "gridder": "null",
+    "state": "未检阅"
   }
 
 ]

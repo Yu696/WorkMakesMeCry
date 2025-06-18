@@ -5,16 +5,16 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include=JsonTypeInfo.As.PROPERTY,
-        property = "type"
-)
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = Supervisor.class, name = "supervisor"),
-        @JsonSubTypes.Type(value = Administrator.class, name = "administrator"),
-        @JsonSubTypes.Type(value = Gridder.class, name = "gridder")
-})
+//@JsonTypeInfo(
+//        use = JsonTypeInfo.Id.NAME,
+//        include=JsonTypeInfo.As.PROPERTY,
+//        property = "type"
+//)
+//@JsonSubTypes({
+//        @JsonSubTypes.Type(value = Supervisor.class, name = "supervisor"),
+//        @JsonSubTypes.Type(value = Administrator.class, name = "administrator"),
+//        @JsonSubTypes.Type(value = Gridder.class, name = "gridder")
+//})
 
 @JsonIgnoreProperties({ "maxElementIndexForInsert", "MemberPath" })
 public class Member extends JsonNodeFactory {
@@ -22,14 +22,32 @@ public class Member extends JsonNodeFactory {
     private String sex;
     private String account;
     private String passWord;
+    private String state;
     public Member() {
     }
 
-    public Member(String account,String passWord){
+    public Member(String name, String sex, String account, String passWord, String state) {
+        this.name=name;
+        this.sex=sex;
+        this.account=account;
+        this.passWord=passWord;
+        this.state=state;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public Member(String account, String passWord){
         this.account=account;
         this.passWord=passWord;
     }
-    public Member(String name, String sex, String account,String passWord) {
+
+    public Member(String name, String sex, String account, String passWord) {
         this.name = name;
         this.sex = sex;
         this.account = account;
@@ -75,6 +93,7 @@ public class Member extends JsonNodeFactory {
                 ", sex='" + sex + '\'' +
                 ", account='" + account + '\'' +
                 ", passWord='" + passWord + '\'' +
+                ",state='" + state + '\''+
                 '}';
     }
 
