@@ -1,9 +1,43 @@
-[
-  {
-    "name": "余润东",
-    "sex": "男",
-    "account": "111",
-    "passWord":"1111",
-    "state": "free"
-  }
-]
+[ {
+  "name" : "余润东",
+  "sex" : "男",
+  "account" : "111",
+  "passWord" : "1111",
+  "state" : "free"
+} ,{
+  "name" : "杨继鑫",
+  "sex" : "男",
+  "account" : "5090",
+  "passWord" : "111",
+  "state" : "free"
+},{
+  "name" : "廖虎贲",
+  "sex" : "男",
+  "account" : "5080",
+  "passWord" : "3333",
+  "state" : "free"
+},{
+  "name" : "光头强",
+  "sex" : "男",
+  "account" : "1114",
+  "passWord" : "11111",
+  "state" : "free"
+},{
+  "name" : "王章浩",
+  "sex" : "男",
+  "account" : "4566",
+  "passWord" : "11",
+  "state" : "free"
+},{
+  "name" : "李明清",
+  "sex" : "男",
+  "account" : "54632",
+  "passWord" : "1",
+  "state" : "free"
+},{
+  "name" : "熊大",
+  "sex" : "男",
+  "account" : "666",
+  "passWord" : "1",
+  "state" : "free"
+}]

@@ -16,7 +16,7 @@ public class Main1 extends Application {
         fxmlLoader.setLocation(getClass().getResource("/com/neuedu/nep/hello-fxml.fxml"));
         Parent pane=fxmlLoader.load();
         Scene scene=new Scene(pane);
-        stage.setTitle("NEUEDU 测试版");
+        stage.setTitle("小趴菜团队出品");
         stage.setScene(scene);
         stage.show();
 

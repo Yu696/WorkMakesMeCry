@@ -1,2 +1,3 @@
 本项目未解决的bug：文件读写bug
 1.不同子类的JSon格式 ： 在administrator中增删supervisor和gridder时子类特有的json标识符“type”会被搞掉（初步推测和读写方式有很大关系。。因为我的改法是把文件内容放入一个数组中改动后再放回去）
+2.administrator员工管理界面刷新之后无法读取到文件的最新内容（感觉跟多线程有关）

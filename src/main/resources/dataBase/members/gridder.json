@@ -1,9 +1,27 @@
 [
   {
-    "name": "小鸡鸡",
+    "name": "沈越",
     "sex": "男",
     "account": "250",
     "passWord": "123123",
     "state": "free"
   }
-]
+,{
+  "name" : "熊二",
+  "sex" : "男",
+  "account" : "222",
+  "passWord" : "11",
+  "state" : "free"
+},{
+  "name" : "翠花",
+  "sex" : "女",
+  "account" : "25555",
+  "passWord" : "123",
+  "state" : "free"
+},{
+  "name" : "蜡笔小新",
+  "sex" : "男",
+  "account" : "5421",
+  "passWord" : "11",
+  "state" : "free"
+}]

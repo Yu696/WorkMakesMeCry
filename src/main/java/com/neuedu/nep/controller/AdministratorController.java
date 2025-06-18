@@ -148,9 +148,9 @@ public class AdministratorController {
         gridderTree.setExpanded(true);
         rootTree.setExpanded(true);
         setupDragAndDrop(departmentText);
-        backButton.setOnAction(e->{
-            supervisorTree.getChildren().remove(0,100);
-            gridderTree.getChildren().remove(0,100);
+        flushButton.setOnAction(e->{
+            supervisorTree.getChildren().remove(0,supervisorTree.getChildren().size());
+            gridderTree.getChildren().remove(0,gridderTree.getChildren().size());
             List<Supervisor> newSupervisorShowList=read("/dataBase/members/supervisor.Json",new Supervisor());
             for (Supervisor a : supervisorShowList){
                 supervisorTree.getChildren().add(new TreeItem<>(a.showInfo()));
@@ -306,16 +306,6 @@ public class AdministratorController {
 
     }
 
-//    //  对数据进行处理来将其拆分成表格能读取的形式
-//    private ObservableList<AQIData> parseJSONData(String dataPath) {
-//            ObservableList<AQIData> data = FXCollections.observableArrayList();
-//            List<AQIData> aqiDataList=read(dataPath,new AQIData());
-//            for(AQIData a :aqiDataList ){
-//                System.out.println(a.toString());
-//            }
-//            data.addAll(aqiDataList);
-//            return data;
-//    }
 
     private String getReportDetailById(String reportId) {
         List<AQIData> list=read("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
@@ -345,8 +335,30 @@ public class AdministratorController {
              writer("/dataBase/members/AQIDataBaseCreatedByAdm.json",aqiData);
         }
         selectedData.setGridder(selectedGridder);
-
+        List<AQIData> list=read("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
+        list.forEach(aqiData -> {
+            if (aqiData.getNum().equals(selectedData.getNum())){
+                aqiData.setGridder(selectedGridder);
+            }
+        });
+        System.out.println(list);
+        try {
+            writerArray("/dataBase/members/AQIDataBaseCreatedBySup.Json",list);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         writer("/dataBase/members/AQIDataBaseCreatedByAdm.json",selectedData);
+        List<Gridder> gridderList=read("/dataBase/members/gridder.Json",new Gridder());
+        gridderList.forEach(gridder -> {
+            if (gridder.getName().equals(selectedGridder)){
+                gridder.setState(selectedData.getNum());
+            }
+        });
+        try {
+            writerArray("/dataBase/members/gridder.Json",gridderList);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         showAlert("成功", "已将报告 " + reportId + " 分配给 " + selectedGridder);
     }
 

@@ -1,0 +1,21 @@
+[{
+  "aqilevel" : "良",
+  "num" : "001",
+  "province" : "广东省",
+  "city" : "广州市",
+  "detailedAddress" : "天河区XX路XX号",
+  "AQILevel" : "良",
+  "date" : "2025-06-10",
+  "detailedInfo" : "空气质量良好，无明显污染,adjajdajdjaskdjladjlasjdlasdasdasdasdasdadada",
+  "publisher" : "余润东",
+  "gridder" : "沈越",
+  "state" : "已处理",
+  "so2" : 1.0,
+  "co" : 1.0,
+  "pm25" : 1.0,
+  "so2Level" : "一级",
+  "coLevel" : "一级",
+  "pm25Level" : "一级",
+  "finalLevel" : "一级",
+  "finalPollution" : "优"
+}]
