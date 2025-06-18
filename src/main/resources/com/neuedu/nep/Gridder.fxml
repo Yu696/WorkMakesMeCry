@@ -1,14 +1,169 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.neuedu.nep.Gridder"
-            prefHeight="400.0" prefWidth="600.0">
+<BorderPane prefHeight="844.0" prefWidth="1024.0" stylesheets="@aqi.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.GridderController">
+    <top>
+        <VBox spacing="10" style="-fx-padding: 10;">
+            <Label alignment="TOP_CENTER" prefHeight="9.0" prefWidth="1004.0" text="AQI反馈数据实测信息" textAlignment="RIGHT" textOverrun="CLIP">
+                <font>
+                    <Font name="System Bold" size="48.0" />
+                </font>
+                <style>
+                    -fx-text-fill: black;
+                    -fx-font-weight: bolder;
+                </style>
+            </Label>
+        </VBox>
+    </top>
+    <center>
+        <VBox prefHeight="721.0" prefWidth="1024.0" spacing="20" style="-fx-padding: 10;">
+            <!-- 添加网格员信息显示 -->
+            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 5;">
+                <!-- 添加指派网格员显示 -->
+                <Label text="网格员:" textAlignment="RIGHT" />
+                <Label fx:id="currentGridderLabel" style="-fx-text-fill: #3498db; -fx-font-weight: bold;" text="未分配" />
+            </HBox>
+            <!-- 反馈信息表格 -->
+            <TableView fx:id="dataTableView" editable="true" fixedCellSize="25.0" prefHeight="273.0" prefWidth="1004.0" styleClass="table-view">
+                <columns>
+                    <TableColumn prefWidth="50" text="编号">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="num" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="80" text="反馈者">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="publisher" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="100" text="反馈时间">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="date" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="80" text="预估等级">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="AQILevel" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="80" text="省区域">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="province" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="80" text="市区域">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="city" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="150" text="具体地址">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="detailedAddress" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="200" text="反馈信息">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="detailedInfo" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="80" text="状态">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="state" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <!-- 添加网格员列 -->
+                    <TableColumn prefWidth="100" text="指派的网格员">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="gridder" />
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+            </TableView>
 
-</AnchorPane>
+            <!-- 分隔线 -->
+            <Separator style="-fx-padding: 10px 0;" />
+
+            <!-- AQI实测数据表单 -->
+            <GridPane hgap="15" prefHeight="340.0" prefWidth="1099.0" style="-fx-padding: 20;" vgap="20">
+                <Label graphicTextGap="6.0" prefHeight="19.0" prefWidth="183.0" styleClass="subtitle-label" text="AQI实测数据信息" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                    <font>
+                        <Font name="System Bold" size="22.0" />
+                    </font>
+                </Label>
+
+                <Label text="AQI反馈数据编号：" GridPane.rowIndex="2" />
+                <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <TextField fx:id="dataIdField" editable="false" prefWidth="150" />
+                </HBox>
+
+                <Label text="二氧化硫(SO2)浓度：" GridPane.rowIndex="3" />
+                <HBox spacing="15" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <TextField fx:id="so2Field" prefWidth="100" />
+                    <Label text="ug/m3" />
+                    <Region prefWidth="35" />
+                    <Label text="SO2浓度等级：" />
+                    <Label fx:id="so2LevelLabel" text="" />
+                    <Label fx:id="so2PollutionLabel" text="" />
+                </HBox>
+
+                <Label text="一氧化碳(CO)浓度：" GridPane.rowIndex="4" />
+                <HBox spacing="15" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                    <TextField fx:id="coField" prefWidth="100" />
+                    <Label text="ug/m3" />
+                    <Region prefWidth="35" />
+                    <Label text="CO浓度等级：" />
+                    <Label fx:id="coLevelLabel" text="" />
+                    <Label fx:id="coPollutionLabel" text="" />
+                </HBox>
+
+                <Label text="细颗粒物(PM2.5)浓度：" GridPane.rowIndex="5" />
+                <HBox spacing="15" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                    <TextField fx:id="pm25Field" prefWidth="100" />
+                    <Label text="ug/m3" />
+                    <Region prefWidth="35" />
+                    <Label text="PM2.5浓度等级：" />
+                    <Label fx:id="pm25LevelLabel" text="" />
+                    <Label fx:id="pm25PollutionLabel" text="" />
+                </HBox>
+
+                <Label style="-fx-font-weight: bold;" text="实测AQI最终等级：" GridPane.rowIndex="6">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+                <HBox spacing="15" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                    <Label fx:id="finalLevelLabel" style="-fx-font-weight: bold;" />
+                    <Label fx:id="finalPollutionLabel" style="-fx-font-weight: bold;" />
+                </HBox>
+                <columnConstraints>
+                    <ColumnConstraints minWidth="180" />
+                    <ColumnConstraints />
+                    <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
+                    <ColumnConstraints />
+                    <ColumnConstraints />
+                    <ColumnConstraints />
+                    <ColumnConstraints />
+                    <ColumnConstraints />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints />
+                    <RowConstraints valignment="TOP" />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                </rowConstraints>
+            </GridPane>
+
+            <!-- 提交按钮 -->
+            <HBox alignment="CENTER">
+                <Button id="submitButton" onAction="#handleSubmit" styleClass="button" text="提交数据" />
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

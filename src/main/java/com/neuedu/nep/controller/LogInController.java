@@ -160,7 +160,7 @@ public class LogInController {
 
     }
 
-    // 代填入gridder 和 supervisor 的fxml 信息
+    // 代填入supervisor 的fxml 信息
 
     public void handleUserView(Member member,String type) {
         String dataBaseFilePath = null;
@@ -171,7 +171,7 @@ public class LogInController {
         }
         if (type.equals("gridder")) {
             dataBaseFilePath = "/dataBase/members/gridder.Json";
-            fxmlPath = "代填入";
+            fxmlPath =  "/com/neuedu/nep/Gridder.fxml";
         }
         if (type.equals("administrator")) {
             dataBaseFilePath = "/dataBase/members/administrator.Json";
