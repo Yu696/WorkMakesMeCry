@@ -25,6 +25,7 @@
                         </ImageView>
                         <Label fx:id="wordsText" layoutX="680.0" layoutY="233.0" prefHeight="155.0" prefWidth="197.0" textAlignment="JUSTIFY" wrapText="true" />
                         <Label fx:id="timeText" alignment="CENTER" layoutX="91.0" layoutY="25.0" prefHeight="29.0" prefWidth="540.0" textAlignment="CENTER" />
+                        <Button fx:id="flushButton" layoutX="639.0" layoutY="585.0" mnemonicParsing="false" text="刷新" />
                      </children></AnchorPane>
                </content>
             </Tab>

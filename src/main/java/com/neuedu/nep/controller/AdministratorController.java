@@ -58,6 +58,8 @@ import static com.neuedu.nep.util.FindUtil.getThisPerson;
 
 
 public class AdministratorController {
+    @FXML
+    private Button flushButton;
 
     @FXML
     private Label wordsText;
@@ -110,7 +112,8 @@ public class AdministratorController {
     }
     @FXML
     private  void initialize(){
-       //设置实时时间
+
+        //设置实时时间
         timeText.setFont(new Font("Arial",36));
         AnimationTimer animationTimer=new AnimationTimer() {
             @Override
@@ -147,7 +150,19 @@ public class AdministratorController {
         gridderTree.setExpanded(true);
         rootTree.setExpanded(true);
         setupDragAndDrop(departmentText);
+        backButton.setOnAction(e->{
+            supervisorTree.getChildren().remove(0,100);
+            gridderTree.getChildren().remove(0,100);
+            List<Supervisor> newSupervisorShowList=read("/dataBase/members/supervisor.Json",new Supervisor());
+            for (Supervisor a : supervisorShowList){
+                supervisorTree.getChildren().add(new TreeItem<>(a.showInfo()));
 
+            }
+            List<Gridder> newGridderShowList=read("/dataBase/members/gridder.Json",new Gridder());
+            for (Gridder a : gridderShowList){
+                gridderTree.getChildren().add(new TreeItem<>(a.showInfo()));
+            }
+        });
 
 
         //表格
@@ -250,9 +265,21 @@ public class AdministratorController {
         List<AQIData> list=objectMapper.readValue(JsonIO.class.getResource("/dataBase/members/AQIDataBaseCreatedBySup.Json"),objectMapper.getTypeFactory().constructCollectionType(List.class,AQIData.class));
         List<AQIData> modelList=new ArrayList<>(list);
         list.forEach(aqiData1 -> {
-            if(aqiData1.getNum().equals(aqiData.getNum())){
+            if(aqiData1.getNum().equals(aqiData.getNum())) {
                 aqiData1.setState("打回");
-                modelList.remove(aqiData1);
+                String mem = aqiData1.getPublisher();
+                List<Supervisor> supervisorList = read("/dataBase/members/supervisor.Json", new Supervisor());
+                List<Supervisor> s= supervisorList.stream().map(supervisor -> {
+                    if (supervisor.getName().equals(mem)) {
+                        supervisor.setState("修改 " + aqiData1.getNum() + " 报告");
+                    }
+                    return supervisor;
+                }).toList();
+                try {
+                    writerArray("/dataBase/members/supervisor.Json",s);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(JsonIO.class.getResource("/dataBase/members/AQIDataBaseCreatedBySup.Json").toURI()),list);

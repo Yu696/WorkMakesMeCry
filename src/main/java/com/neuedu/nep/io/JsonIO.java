@@ -55,6 +55,12 @@ public class JsonIO {
             // 如果文件不存在或为空，写入数组起始符号
             if (!file.exists() || file.length() == 0) {
                 writer.write("[");
+                // 写入新对象的 JSON 文本
+                String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+                writer.write(json);
+
+                // 写入数组结束符号
+                writer.write("]");
             } else {
                 // 如果文件已有内容，追加逗号分隔
                 long length = file.length();

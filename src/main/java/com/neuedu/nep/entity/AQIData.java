@@ -137,6 +137,7 @@ public class AQIData {
         return publisher;
     }
 
+
     public void setPublisher(String publisher) {
         this.publisher = publisher;
     }

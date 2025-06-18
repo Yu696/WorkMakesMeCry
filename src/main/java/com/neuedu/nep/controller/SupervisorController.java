@@ -27,8 +27,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static com.neuedu.nep.io.JsonIO.read;
-import static com.neuedu.nep.io.JsonIO.writer;
+import static com.neuedu.nep.io.JsonIO.*;
 import static com.neuedu.nep.util.AlertUtils.showAlert;
 import static com.neuedu.nep.util.FileUtils.getMaxIdFromJson;
 import static com.neuedu.nep.util.FileUtils.getThisPerson;
@@ -431,6 +430,18 @@ public class SupervisorController implements Initializable {
                         File file=new File(JsonIO.class.getResource("/dataBase/members/AQIDataBaseCreatedBySup.Json").toURI());
                         objectMapper.writerWithDefaultPrettyPrinter().writeValue(file,list);
                         Stage stage=(Stage) confirmButton.getScene().getWindow();
+                        List<Supervisor> supervisorList = read("/dataBase/members/supervisor.Json", new Supervisor());
+                        List<Supervisor> s= supervisorList.stream().map(supervisor -> {
+                            if (supervisor.getName().equals(publisher)) {
+                                supervisor.setState("free");
+                            }
+                            return supervisor;
+                        }).toList();
+                        try {
+                            writerArray("/dataBase/members/supervisor.Json",s);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                         showAlert("成功","成功修改了此报告，正在接受监督员的审核", AlertUtils.AlertType.SUCCESS,stage);
                         System.out.println("成功改变数据");
                     } catch (URISyntaxException | IOException ex) {
