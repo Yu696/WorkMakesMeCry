@@ -152,7 +152,7 @@ public class AdministratorController {
         rootTree.setExpanded(true);
         setupDragAndDrop(departmentText);
         deleteButton.setOnAction(e->{
-            while (departmentText.getSelectionModel().getSelectedItem()==null) {
+            if (departmentText.getSelectionModel().getSelectedItem()==null) {
                 Stage stage = (Stage) departmentText.getScene().getWindow();
                 AlertUtils.showAlert("错误", "请选择要删除的员工", AlertUtils.AlertType.ERROR, stage);
             }

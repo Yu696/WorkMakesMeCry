@@ -393,7 +393,7 @@ public class SupervisorController implements Initializable {
         state.setCellValueFactory(new PropertyValueFactory<>("state"));
         state.setPrefWidth(80);
         // 读取文件中的所有 AQI 数据
-        List<AQIData> allData = FileUtils.readAllAqiData();
+        List<AQIData> allData = read("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
         List<AQIData> filteredData = new ArrayList<>();
 
         // 筛选出与 supervisorName 名字一样的数据
@@ -405,7 +405,7 @@ public class SupervisorController implements Initializable {
         ObservableList<AQIData> observableData = FXCollections.observableArrayList(filteredData);
         flushButton.setOnAction(e->{
             // 读取文件中的所有 AQI 数据
-            List<AQIData> allData1 = FileUtils.readAllAqiData();
+            List<AQIData> allData1 = read("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
             List<AQIData> filteredData1 = new ArrayList<>();
             List<AQIData> submittedData = read("/dataBase/members/AQIDataBaseCreatedByAdm.json",new AQIData());
             // 筛选出与 supervisorName 名字一样的数据 并且 如果administrator已经通过该报告，将不会再出现在表格上
