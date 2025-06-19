@@ -1,31 +1,43 @@
 [
   {
-    "num": "001",
-    "province": "广东省",
-    "city": "广州市",
-    "detailedAddress":"天河区XX路XX号",
-    "AQILevel": "良",
-    "date":"2025-06-10",
-    "detailedInfo": "空气质量良好，无明显污染,adjajdajdjaskdjladjlasjdlasdasdasdasdasdadada",
-    "publisher": "余润东",
-    "gridder": "null",
-    "state": "未检阅"
-  },
-  {
-    "num": "002",
-    "province": "江苏省",
-    "city": "南京市",
-    "detailedAddress": "鼓楼区XX街XX号" ,
-    "AQILevel": "轻度污染",
-    "date": "2025-06-09",
-    "detailedInfo": "空气中有轻微异味",
-    "publisher": "熊大",
-    "gridder": "null",
-    "state": "未检阅"
-  }
-
-,{
-  "aqilevel" : "一级",
+    "num" : "001",
+    "province" : "广东省",
+    "city" : "广州市",
+    "detailedAddress" : "天河区XX路XX号",
+    "AQILevel" : "三级",
+    "date" : "2025-06-10",
+    "detailedInfo" : "空气质量良好，无明显污染,adjajdajdjaskdjladjlasjdlasdasdasdasdasdadada",
+    "publisher" : "余润东",
+    "gridder" : "沈越",
+    "state" : "已检阅",
+    "so2" : null,
+    "co" : null,
+    "pm25" : null,
+    "so2Level" : null,
+    "coLevel" : null,
+    "pm25Level" : null,
+    "finalLevel" : null,
+    "finalPollution" : null
+  },{
+  "num" : "002",
+  "province" : "江苏省",
+  "city" : "南京市",
+  "detailedAddress" : "鼓楼区XX街XX号",
+  "AQILevel" : "二级",
+  "date" : "2025-06-09",
+  "detailedInfo" : "空气中有轻微异味",
+  "publisher" : "熊大",
+  "gridder" : "熊二",
+  "state" : "已检阅",
+  "so2" : null,
+  "co" : null,
+  "pm25" : null,
+  "so2Level" : null,
+  "coLevel" : null,
+  "pm25Level" : null,
+  "finalLevel" : null,
+  "finalPollution" : null
+},{
   "num" : "003",
   "province" : "北京市",
   "city" : "北京市",
@@ -45,7 +57,6 @@
   "finalLevel" : null,
   "finalPollution" : null
 },{
-  "aqilevel" : "二级",
   "num" : "004",
   "province" : "天津市",
   "city" : "天津市",
@@ -65,7 +76,6 @@
   "finalLevel" : null,
   "finalPollution" : null
 },{
-  "aqilevel" : "二级",
   "num" : "005",
   "province" : "河北省",
   "city" : "邯郸市",
@@ -85,7 +95,6 @@
   "finalLevel" : null,
   "finalPollution" : null
 },{
-  "aqilevel" : "四级",
   "num" : "006",
   "province" : "山西省",
   "city" : "太原市",
@@ -105,7 +114,6 @@
   "finalLevel" : null,
   "finalPollution" : null
 },{
-  "aqilevel" : "四级",
   "num" : "007",
   "province" : "江苏省",
   "city" : "无锡市",
@@ -125,7 +133,6 @@
   "finalLevel" : null,
   "finalPollution" : null
 },{
-  "aqilevel" : "四级",
   "num" : "008",
   "province" : "河南省",
   "city" : "郑州市",

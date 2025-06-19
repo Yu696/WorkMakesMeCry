@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1121.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neuedu.nep.controller.viewController">
+   <right>
+      <HBox prefHeight="283.0" prefWidth="357.0" BorderPane.alignment="CENTER">
+         <children>
+            <LineChart fx:id="LineChartUp" prefHeight="283.0" prefWidth="349.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+         </children>
+      </HBox>
+   </right>
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <PieChart fx:id="PieChart" />
+         </children>
+      </HBox>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="277.0" prefWidth="1121.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="277.0" prefWidth="769.0">
+               <children>
+                  <HBox prefHeight="277.0" prefWidth="776.0">
+                     <children>
+                        <BubbleChart fx:id="BubbleChart" prefHeight="277.0" prefWidth="288.0">
+                          <xAxis>
+                            <NumberAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </BubbleChart>
+                        <HBox prefHeight="277.0" prefWidth="485.0">
+                           <children>
+                              <TextArea fx:id="detailTextArea" prefHeight="277.0" prefWidth="489.0" />
+                           </children>
+                        </HBox>
+                     </children></HBox>
+               </children>
+            </HBox>
+            <LineChart fx:id="LineChartDown" prefHeight="277.0" prefWidth="346.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+         </children>
+      </HBox>
+   </bottom>
+   <top>
+      <HBox alignment="CENTER" prefHeight="84.0" prefWidth="1121.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label contentDisplay="CENTER" prefHeight="38.0" prefWidth="260.0" text="环境AQI系数总览表" textAlignment="CENTER">
+               <font>
+                  <Font size="29.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+   <left>
+      <HBox prefHeight="283.0" prefWidth="292.0" BorderPane.alignment="CENTER">
+         <children>
+            <StackedAreaChart fx:id="stackedAreaChart" prefHeight="277.0" prefWidth="299.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </StackedAreaChart>
+         </children>
+      </HBox>
+   </left>
+</BorderPane>

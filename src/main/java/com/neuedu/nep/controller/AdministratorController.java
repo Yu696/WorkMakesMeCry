@@ -392,6 +392,7 @@ public class AdministratorController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        selectedData.setState("已检阅");
         writer("/dataBase/members/AQIDataBaseCreatedByAdm.json",selectedData);
         List<Gridder> gridderList=read("/dataBase/members/gridder.Json",new Gridder());
         gridderList.forEach(gridder -> {

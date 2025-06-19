@@ -75,11 +75,21 @@ public class GridderController {
         Stage stage=(Stage) dataIdField.getScene().getWindow();
         String nameLine=stage.getTitle();
         String name=nameLine.split(":")[1];
-        ObservableList<AQIData> allData = parseJSONData("/dataBase/members/AQIDataBaseCreatedByAdm.json",new AQIData());
+        String realName=name.split(",")[1];
 
+        ObservableList<AQIData> allData = parseJSONData("/dataBase/members/AQIDataBaseCreatedByAdm.json",new AQIData());
+        ObservableList<AQIData> handledData = parseJSONData("/dataBase/members/AQIDataBaseCreatedByGri.Json",new AQIData());
         for (AQIData data : allData) {
-            if (name.equals(data.getGridder()) && !"已处理".equals(data.getState())) {
-                dataList.add(data);
+            if (realName.equals(data.getGridder()) && !"已处理".equals(data.getState())) {
+                int count=0;
+                for(AQIData h : handledData) {
+                    if (h.getNum().equals(data.getNum())){
+                        count++;
+                    }
+                }
+                if(count==0){
+                    dataList.add(data);
+                }
             }
         }
 
@@ -140,23 +150,23 @@ public class GridderController {
 
 
         // 如果已有实测数据，则填充表单
-        if (data.getSo2() != null) {
+        if (data.getSo2() != null && data.getNum().equals(dataTableView.getSelectionModel().getSelectedItem().getNum())) {
             so2Field.setText(String.valueOf(data.getSo2()));
             so2LevelLabel.setText(data.getSo2Level());
             so2PollutionLabel.setText(getPollutionDescription(data.getSo2Level()));
         }
-        if (data.getCo() != null) {
+        if (data.getCo() != null && data.getNum().equals(dataTableView.getSelectionModel().getSelectedItem().getNum())) {
             coField.setText(String.valueOf(data.getCo()));
             coLevelLabel.setText(data.getCoLevel());
             coPollutionLabel.setText(getPollutionDescription(data.getCoLevel()));
         }
-        if (data.getPm25() != null) {
+        if (data.getPm25() != null && data.getNum().equals(dataTableView.getSelectionModel().getSelectedItem().getNum())) {
             pm25Field.setText(String.valueOf(data.getPm25()));
             pm25LevelLabel.setText(data.getPm25Level());
             pm25PollutionLabel.setText(getPollutionDescription(data.getPm25Level()));
         }
 
-        if (data.getFinalLevel() != null) {
+        if (data.getFinalLevel() != null && data.getNum().equals(dataTableView.getSelectionModel().getSelectedItem().getNum())) {
             finalLevelLabel.setText(data.getFinalLevel());
             finalPollutionLabel.setText(data.getFinalPollution());
         }

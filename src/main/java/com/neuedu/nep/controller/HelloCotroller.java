@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -17,7 +18,11 @@ import java.io.IOException;
 //主控制器
 public class HelloCotroller {
     @FXML
+    private Button viewButton;
+
+    @FXML
     private AnchorPane paneRoot;
+
     @FXML
     private Button registerButton;
 
@@ -40,6 +45,7 @@ public class HelloCotroller {
         handleLogIn();
     }
     //加载背景图片，并随容器的大小变化而改变
+
     @FXML
     private void initialize(){
         Image backgroundImage=new Image(getClass().getResourceAsStream("/image/back3.jpg"));
@@ -108,5 +114,17 @@ public class HelloCotroller {
 
         }
 
+    }
+
+    public void handleView(MouseEvent mouseEvent) throws IOException {
+        FXMLLoader fxmlLoader= new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/com/neuedu/nep/view.fxml"));
+        Parent pane=fxmlLoader.load();
+        Scene scene=new Scene(pane);
+        Stage stage=new Stage();
+        stage.setScene(scene);
+        stage.setTitle("小趴菜团队出品");
+        stage.setScene(scene);
+        stage.show();
     }
 }

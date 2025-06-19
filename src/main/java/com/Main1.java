@@ -19,7 +19,6 @@ public class Main1 extends Application {
         stage.setTitle("小趴菜团队出品");
         stage.setScene(scene);
         stage.show();
-
     }
 
     public static void main(String[] args) {
