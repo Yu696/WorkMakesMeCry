@@ -179,7 +179,7 @@ public class LogInController {
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
-            stage.setTitle("用户操作界面:"+member.getName());
+            stage.setTitle("用户操作界面:"+member.getAccount()+","+member.getName());
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(logInStage);
             stage.show();

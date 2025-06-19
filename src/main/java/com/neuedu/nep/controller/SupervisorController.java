@@ -268,7 +268,8 @@ public class SupervisorController implements Initializable {
             // 现在组件已附加到场景
             Stage stage=(Stage) Tab.getScene().getWindow();
             String nameLine=stage.getTitle();
-            String name=nameLine.split(":")[1];
+            String nameA=nameLine.split(":")[1];
+            String name=nameA.split(",")[1];
             initUI(name);
             filterAndShowData(name);
         });

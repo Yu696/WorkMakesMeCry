@@ -49,6 +49,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.w3c.dom.ls.LSInput;
 
 import static com.neuedu.nep.io.JsonIO.*;
 import static com.neuedu.nep.util.FindUtil.findItAndGetIt;
@@ -89,6 +90,8 @@ public class AdministratorController {
     @FXML
     private TableView<AQIData> reportDetailTableView;
 
+    @FXML
+    private Button deleteButton;
 
     @FXML
     private ComboBox<String> GridderComboBox;
@@ -148,16 +151,56 @@ public class AdministratorController {
         gridderTree.setExpanded(true);
         rootTree.setExpanded(true);
         setupDragAndDrop(departmentText);
+        deleteButton.setOnAction(e->{
+            while (departmentText.getSelectionModel().getSelectedItem()==null) {
+                Stage stage = (Stage) departmentText.getScene().getWindow();
+                AlertUtils.showAlert("错误", "请选择要删除的员工", AlertUtils.AlertType.ERROR, stage);
+            }
+            if(departmentText.getSelectionModel().getSelectedItem()!=null){
+            String type=departmentText.getSelectionModel().getSelectedItem().getParent().getValue();
+            String memberLine=departmentText.getSelectionModel().getSelectedItem().getValue();
+            String accountLine=memberLine.split(" ")[2];
+            String account=accountLine.split(":")[1];
+            if(type.equals("监督员部")){
+                List<Supervisor> supervisorList=read("/dataBase/members/supervisor.Json",new Supervisor());
+                List<Supervisor> newSupervisorList=supervisorList.stream().filter(supervisor -> !supervisor.getAccount().equals(account)).toList();
+                System.out.println(newSupervisorList);
+                try {
+                    writerArray("/dataBase/members/supervisor.Json",newSupervisorList);
+                    departmentText.getSelectionModel().getSelectedItem().getParent().getChildren().remove(0,departmentText.getSelectionModel().getSelectedItem().getParent().getChildren().size());
+                    for(Supervisor a : newSupervisorList){
+                        supervisorTree.getChildren().add(new TreeItem<>(a.showInfo()));
+                    }
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            if (type.equals("网格员部")){
+                List<Gridder> gridderList=read("/dataBase/members/gridder.json",new Gridder());
+                List<Gridder> newGridderList=gridderList.stream().filter(gridder -> !gridder.getAccount().equals(account)).toList();
+                System.out.println(newGridderList);
+                try {
+                    writerArray("/dataBase/members/gridder.json",newGridderList);
+                    departmentText.getSelectionModel().getSelectedItem().getParent().getChildren().remove(0,departmentText.getSelectionModel().getSelectedItem().getParent().getChildren().size());
+                    for(Gridder a : newGridderList){
+                        gridderTree.getChildren().add(new TreeItem<>(a.showInfo()));
+                    }
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            }
+        });
         flushButton.setOnAction(e->{
             supervisorTree.getChildren().remove(0,supervisorTree.getChildren().size());
             gridderTree.getChildren().remove(0,gridderTree.getChildren().size());
             List<Supervisor> newSupervisorShowList=read("/dataBase/members/supervisor.Json",new Supervisor());
-            for (Supervisor a : supervisorShowList){
+            for (Supervisor a : newSupervisorShowList){
                 supervisorTree.getChildren().add(new TreeItem<>(a.showInfo()));
 
             }
             List<Gridder> newGridderShowList=read("/dataBase/members/gridder.Json",new Gridder());
-            for (Gridder a : gridderShowList){
+            for (Gridder a : newGridderShowList){
                 gridderTree.getChildren().add(new TreeItem<>(a.showInfo()));
             }
         });
