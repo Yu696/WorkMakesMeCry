@@ -238,9 +238,20 @@ public class AdministratorController {
                 infoColumn, publisherColumn
         );
         ObservableList<AQIData> aqiDataList = parseJSONData("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
-
+        ObservableList<AQIData> handledList=parseJSONData("/dataBase/members/AQIDataBaseCreatedByGri.Json",new AQIData());
+        ObservableList<AQIData> showList=FXCollections.observableArrayList();
+        List<String> handledNum=new ArrayList<>();
+        for(AQIData a : handledList){
+            handledNum.add(a.getNum());
+        }
+        for (AQIData a : aqiDataList){
+            if (!handledNum.contains(a.getNum())){
+                showList.add(a);
+            }
+        }
         // 将数据设置到TableView
-        reportDetailTableView.setItems(aqiDataList);
+        reportDetailTableView.setItems(showList);
+
         reportDetailTableView.getSelectionModel().selectedItemProperty().addListener(((observableValue, aqiData, t1) -> {
             if(t1!=null){
                 detailedInfoTextArea.setText(t1.toString());
@@ -301,7 +312,19 @@ public class AdministratorController {
 
     private void handleBack(){
         ObservableList<AQIData> aqiDataList = parseJSONData("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
-        reportDetailTableView.setItems(aqiDataList);
+        ObservableList<AQIData> handledList=parseJSONData("/dataBase/members/AQIDataBaseCreatedByGri.Json",new AQIData());
+        ObservableList<AQIData> showList=FXCollections.observableArrayList();
+        List<String> handledNum=new ArrayList<>();
+        for(AQIData a : handledList){
+            handledNum.add(a.getNum());
+        }
+        for (AQIData a : aqiDataList){
+            if (!handledNum.contains(a.getNum())){
+                showList.add(a);
+            }
+        }
+        // 将数据设置到TableView
+        reportDetailTableView.setItems(showList);
     }
 
     private void handleDismiss() throws IOException, URISyntaxException {
@@ -633,7 +656,7 @@ public class AdministratorController {
     private void updateEmployeeDepartment(String draggedEmployee, String newDepartment) throws IOException {
         String account=draggedEmployee.split(" ")[2];
         String name=draggedEmployee.split( " ")[0];
-        String finalAccount=account.split(":")[0];
+        String finalAccount=account.split(":")[1];
         ObjectMapper objectMapper=new ObjectMapper();
         if(newDepartment.equals("监督员部")){
             try {

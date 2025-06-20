@@ -76,12 +76,14 @@ public class GridderController {
         String nameLine=stage.getTitle();
         String name=nameLine.split(":")[1];
         String realName=name.split(",")[1];
-
         ObservableList<AQIData> allData = parseJSONData("/dataBase/members/AQIDataBaseCreatedByAdm.json",new AQIData());
         ObservableList<AQIData> handledData = parseJSONData("/dataBase/members/AQIDataBaseCreatedByGri.Json",new AQIData());
+
         for (AQIData data : allData) {
+            int count=0;
+            System.out.println(data);
             if (realName.equals(data.getGridder()) && !"已处理".equals(data.getState())) {
-                int count=0;
+                System.out.println("ss");
                 for(AQIData h : handledData) {
                     if (h.getNum().equals(data.getNum())){
                         count++;
