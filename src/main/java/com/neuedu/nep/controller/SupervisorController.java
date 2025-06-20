@@ -297,6 +297,7 @@ public class SupervisorController implements Initializable {
         String detailedInfo = information.getText();
         String nameLine=stage.getTitle();
         String nameA=nameLine.split(":")[1];
+        String account=nameA.split(",")[0];
         String gridder = null;
         String state = null;
         String date;
@@ -355,6 +356,7 @@ public class SupervisorController implements Initializable {
         // 调用写入文件的方法
         String filePath = "/dataBase/members/AQIDataBaseCreatedBySup.Json";
         writer(filePath, aqiData);
+        filterAndShowData(account);
     }
 
     @FXML
