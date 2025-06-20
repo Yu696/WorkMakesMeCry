@@ -238,7 +238,7 @@ public class AdministratorController {
                 infoColumn, publisherColumn
         );
         ObservableList<AQIData> aqiDataList = parseJSONData("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
-        ObservableList<AQIData> handledList=parseJSONData("/dataBase/members/AQIDataBaseCreatedByGri.Json",new AQIData());
+        ObservableList<AQIData> handledList=parseJSONData("/dataBase/members/AQIDataBaseCreatedByAdm.Json",new AQIData());
         ObservableList<AQIData> showList=FXCollections.observableArrayList();
         List<String> handledNum=new ArrayList<>();
         for(AQIData a : handledList){
@@ -312,7 +312,7 @@ public class AdministratorController {
 
     private void handleBack(){
         ObservableList<AQIData> aqiDataList = parseJSONData("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
-        ObservableList<AQIData> handledList=parseJSONData("/dataBase/members/AQIDataBaseCreatedByGri.Json",new AQIData());
+        ObservableList<AQIData> handledList=parseJSONData("/dataBase/members/AQIDataBaseCreatedByAdm.Json",new AQIData());
         ObservableList<AQIData> showList=FXCollections.observableArrayList();
         List<String> handledNum=new ArrayList<>();
         for(AQIData a : handledList){
@@ -324,6 +324,7 @@ public class AdministratorController {
             }
         }
         // 将数据设置到TableView
+        reportDetailTableView.getItems().clear();
         reportDetailTableView.setItems(showList);
     }
 
@@ -429,6 +430,7 @@ public class AdministratorController {
             throw new RuntimeException(e);
         }
         showAlert("成功", "已将报告 " + reportId + " 分配给 " + selectedGridder);
+        handleBack();
     }
 
     /**

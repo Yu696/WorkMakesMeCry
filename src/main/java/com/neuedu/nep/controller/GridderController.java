@@ -70,6 +70,7 @@ public class GridderController {
     }
 
     private void loadAssignedData() {
+        dataList.remove(0, dataList.size());
         // 从数据库加载分配给当前网格员的数据
         // 这里假设有一个方法可以获取当前登录的网格员ID
         Stage stage=(Stage) dataIdField.getScene().getWindow();
@@ -329,6 +330,7 @@ public class GridderController {
 
             // 更新表格显示
             dataTableView.refresh();
+            loadAssignedData();
             showAlert("成功", "数据提交成功");
             clearForm();
 
