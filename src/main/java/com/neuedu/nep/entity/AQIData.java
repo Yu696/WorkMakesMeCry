@@ -49,6 +49,7 @@ public class AQIData {
     private String finalLevel;
     @JsonProperty("finalPollution")
     private String finalPollution;
+
     public AQIData(String num, String province, String detailedAddress, String city, String AQILevel, String date, String detailedInfo, String publisher) {
         this.num = num;
         this.province = province;

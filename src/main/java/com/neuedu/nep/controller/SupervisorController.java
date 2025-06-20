@@ -105,6 +105,8 @@ public class SupervisorController implements Initializable {
 
     private static int currentId = 1;
 
+    private String name;
+    private String account;
     // 反馈文本域
     //关闭
     public void closeFeedback() {
@@ -269,9 +271,10 @@ public class SupervisorController implements Initializable {
             Stage stage=(Stage) Tab.getScene().getWindow();
             String nameLine=stage.getTitle();
             String nameA=nameLine.split(":")[1];
-            String name=nameA.split(",")[1];
+            name=nameA.split(",")[1];
+            account=nameA.split(",")[0];
             initUI(name);
-            filterAndShowData(name);
+            filterAndShowData(account);
         });
 
         loadProvinces();
@@ -292,7 +295,8 @@ public class SupervisorController implements Initializable {
         String detailedAddress = address.getText();
         String AQILevel = GradeChoice.getValue();
         String detailedInfo = information.getText();
-        String publisher = supervisorName.getText();
+        String nameLine=stage.getTitle();
+        String nameA=nameLine.split(":")[1];
         String gridder = null;
         String state = null;
         String date;
@@ -306,7 +310,7 @@ public class SupervisorController implements Initializable {
         // 使用新的顺序编号生成方法
 
         String num = generateSequentialId();
-        AQIData aqiData = new AQIData(num, province, detailedAddress, city, AQILevel, date, detailedInfo, publisher);
+        AQIData aqiData = new AQIData(num, province, detailedAddress, city, AQILevel, date, detailedInfo, nameA);
         //判定错误信息
         if (provinceChoice.getSelectionModel().isEmpty()) {
             showAlert("错误",
@@ -397,22 +401,37 @@ public class SupervisorController implements Initializable {
         List<AQIData> filteredData = new ArrayList<>();
 
         // 筛选出与 supervisorName 名字一样的数据
+        List<AQIData> submittedData = read("/dataBase/members/AQIDataBaseCreatedByAdm.json",new AQIData());
+        // 筛选出与 supervisorName 名字一样的数据 并且 如果administrator已经通过该报告，将不会再出现在表格上
         for (AQIData data : allData) {
-            if (name.equals(data.getPublisher())) {
-                filteredData.add(data);
+            String nameLine=data.getPublisher();
+            String account=nameLine.split(",")[0];
+            if (name.equals(account) ) {
+                int count=0;
+                for(AQIData data1 : submittedData){
+                    if(data1.getNum().equals(data.getNum())){
+                        count++;
+                    }
+                }
+                if(count==0){
+                    filteredData.add(data);
+                }
             }
         }
-        ObservableList<AQIData> observableData = FXCollections.observableArrayList(filteredData);
+        ObservableList<AQIData> observableData1 = FXCollections.observableArrayList(filteredData);
+        showDetail.setItems(observableData1);
         flushButton.setOnAction(e->{
-            // 读取文件中的所有 AQI 数据
-            List<AQIData> allData1 = read("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
             List<AQIData> filteredData1 = new ArrayList<>();
-            List<AQIData> submittedData = read("/dataBase/members/AQIDataBaseCreatedByAdm.json",new AQIData());
+            List<AQIData> allData1 = read("/dataBase/members/AQIDataBaseCreatedBySup.Json",new AQIData());
+            // 筛选出与 supervisorName 名字一样的数据
+            List<AQIData> submittedData1 = read("/dataBase/members/AQIDataBaseCreatedByAdm.json",new AQIData());
             // 筛选出与 supervisorName 名字一样的数据 并且 如果administrator已经通过该报告，将不会再出现在表格上
             for (AQIData data : allData1) {
-                if (name.equals(data.getPublisher()) ) {
+                String nameLine=data.getPublisher();
+                String account=nameLine.split(",")[0];
+                if (name.equals(account)) {
                     int count=0;
-                    for(AQIData data1 : submittedData){
+                    for(AQIData data1 : submittedData1){
                         if(data1.getNum().equals(data.getNum())){
                             count++;
                         }
@@ -422,11 +441,9 @@ public class SupervisorController implements Initializable {
                     }
                 }
             }
-            ObservableList<AQIData> observableData1 = FXCollections.observableArrayList(filteredData1);
-            showDetail.setItems(observableData1);
+            ObservableList<AQIData> observableData2 = FXCollections.observableArrayList(filteredData1);
+            showDetail.setItems(observableData2);
         });
-        // 将筛选后的数据设置到表格中
-        showDetail.setItems(observableData);
         showDetail.getSelectionModel().selectedItemProperty().addListener((observableValue, aqiData, t1) -> {
             if(t1!=null){
                 infoText.setStyle("-fx-font-size: 16pt;");

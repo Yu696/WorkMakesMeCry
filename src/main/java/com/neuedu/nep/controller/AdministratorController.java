@@ -633,7 +633,7 @@ public class AdministratorController {
     private void updateEmployeeDepartment(String draggedEmployee, String newDepartment) throws IOException {
         String account=draggedEmployee.split(" ")[2];
         String name=draggedEmployee.split( " ")[0];
-        String finalAccount=account.split(":")[1];
+        String finalAccount=account.split(":")[0];
         ObjectMapper objectMapper=new ObjectMapper();
         if(newDepartment.equals("监督员部")){
             try {
